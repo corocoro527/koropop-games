@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shindan.koropopgames.com/sitemap.xml
