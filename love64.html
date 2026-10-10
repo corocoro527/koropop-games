@@ -1440,6 +1440,10 @@ details p{font-size:.8rem!important;line-height:1.8!important;color:#747681!impo
 @media(hover:hover){#landingV6 .love64-compat-hero-link:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(196,87,139,.13)}}
 @media(max-width:390px){#landingV6 .love64-compat-hero-link{min-height:56px;padding:9px 12px;margin-top:13px}}
 </style>
+<style id="love64-active-screen-cta-fix">
+/* Keep start buttons only on the landing screen; never cover questionnaire/results. */
+body.love64-active-flow #stickyCta{display:none!important}
+</style>
 </head>
 <body>
 <header class="site-head">
@@ -2018,6 +2022,7 @@ var subtypeData={
 };
 
 function startQuiz(g){
+ document.body.classList.add('love64-active-flow');
  selectedGender=g;
  currentQuestion=0;
  document.getElementById('landing').style.display='none'; var lv6=document.getElementById('landingV6'); if(lv6)lv6.style.display='none';
@@ -2127,6 +2132,7 @@ function diagnose(){
 }
 
 function showResult(r){
+ document.body.classList.add('love64-active-flow');
  var sub=subtypeData[r.sub];
  var baseName=baseNames[r.base]||'恋愛探究タイプ';
  var dependency=r.p.ANX;
@@ -2191,6 +2197,7 @@ function makeCompat(r){
 function shareX(){if(window.Love64Story){window.Love64Story.shareX();return;}}
 function copyResult(){if(window.Love64Story){window.Love64Story.copyMyResult();return;}}
 function restart(){
+ document.body.classList.remove('love64-active-flow');
  answers={};
  document.getElementById('resultScreen').style.display='none';
  document.getElementById('landing').style.display='none'; var lv6=document.getElementById('landingV6'); if(lv6)lv6.style.display='block';
