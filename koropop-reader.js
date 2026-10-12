@@ -9,8 +9,11 @@ const ready = (fn) => {
 };
 
 ready(() => {
-  // Diagnostic tools are not articles: do not inject career breadcrumbs, reading time or scroll controls.
-  if (/^\/love64-(?:compat|type|types|guide)\.html$/i.test(location.pathname)) return;
+  // This standalone diagnosis site has no career sections. Do not inject
+  // career breadcrumbs or links to pages that only exist on the career domain.
+  if (location.hostname === "shindan.koropopgames.com") return;
+  // On previews and aliases, skip diagnosis and policy pages too.
+  if (/^\/(?:love64(?:-[^/]*)?|shindan|terms|privacy|contact|about)(?:\.html)?$/i.test(location.pathname)) return;
 
   const root =
     document.querySelector("article") ||
