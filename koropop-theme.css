@@ -1,0 +1,28 @@
+/* KOROPOP GAMES — standalone diagnosis-site editorial theme */
+:root{
+  --kg-bg:#fff9fb;
+  --kg-ink:#262631;
+  --kg-text:#575667;
+  --kg-pink:#d94373;
+  --kg-line:#f0dce5;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:var(--kg-bg);color:var(--kg-ink);line-height:1.85}
+body p,body li{color:var(--kg-text)}
+a{color:var(--kg-pink)}
+a:hover{text-decoration:underline}
+header{background:#fff;border-bottom:1px solid var(--kg-line)}
+header a{color:#ae2f5b}
+header .brand{font-size:1.05rem;color:#bc3463}
+.hero{background:linear-gradient(145deg,#fff,#fff0f6);border:1px solid var(--kg-line);border-radius:20px;box-shadow:0 10px 25px rgba(123,46,80,.06)}
+.hero h1{color:#312638}
+h2{color:#3b2e42}
+.card,.policy,.source{border-color:var(--kg-line)!important}
+.card h3,.policy strong{color:#a92c5b!important}
+.policy{border-left-color:#e95f91!important}
+.source:before{background:#ce4677!important}
+.note{background:#fff3f8;padding:16px 18px;border:1px solid var(--kg-line);border-radius:12px;color:#795266}
+.links a{border-color:var(--kg-line)}
+footer{margin-top:50px;padding:26px 0 36px;background:#fff;border-top:1px solid var(--kg-line);color:#8b7180;font-size:.85rem}
+footer a{color:#ae2f5b}
+@media(max-width:650px){header .nav{align-items:flex-start}.hero{padding:28px 20px}}
