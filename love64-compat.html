@@ -30,6 +30,33 @@
 .love64-editorial-bottom-info a{color:#a14b7e;text-decoration:underline;text-underline-offset:2px}
 </style>
 
+
+<style id="love64-duo-results-v2">
+.love64-duo-reveal-row{display:flex;justify-content:center;margin:12px 0 20px}
+#love64-duo-show-result{width:100%;border:0;border-radius:14px;padding:15px 16px;min-height:53px;color:#fff;background:linear-gradient(100deg,#f75b8b,#8d67e7);font-size:1.03rem;font-weight:950;cursor:pointer;box-shadow:0 6px 18px rgba(218,84,139,.14)}
+.love64-duo-result[hidden]{display:none!important}
+.love64-duo-result{scroll-margin-top:22px;border:2px solid #f7b5d6;border-radius:19px;overflow:hidden;margin:17px 0;background:#fff;padding:0 15px 18px;box-shadow:0 10px 28px rgba(178,84,142,.08)}
+.love64-duo-result-top{margin:0 -15px 16px;padding:24px 18px 21px;text-align:center;color:white;background:linear-gradient(118deg,#f05e93 0%,#be65ca 57%,#8168dd 100%)}
+.love64-duo-result-kicker{font-size:.74rem;font-weight:900;letter-spacing:.05em}
+.love64-duo-result-top h3{margin:10px 0 9px;line-height:1.4;font-size:clamp(1.35rem,5vw,1.8rem);font-weight:950;color:#fff}
+.love64-duo-result-top p{font-size:.89rem;color:#fff;opacity:.96;line-height:1.7;margin:0}
+.love64-duo-result h4{font-size:.94rem;color:#6b486c;margin:16px 0 10px}
+.love64-duo-counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.love64-duo-count{border:1px solid #eddde8;background:#fff9fc;border-radius:13px;padding:12px 12px 14px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;position:relative;overflow:hidden}
+.love64-duo-count span{font-size:.8rem;font-weight:800;color:#866b82}.love64-duo-count strong{font-size:1.14rem;color:#b14378}
+.love64-duo-count i{position:absolute;bottom:0;left:0;background:linear-gradient(90deg,#f07ca9,#a675e4);height:4px}
+.love64-duo-insight{background:#f4efff;border-radius:13px;padding:14px;margin:16px 0}
+.love64-duo-insight strong{font-size:.98rem;color:#7655a4;line-height:1.5}.love64-duo-insight p{font-size:.75rem;color:#867991;margin:6px 0 0;line-height:1.6}
+.love64-duo-surprise{font-size:.86rem;white-space:pre-line;background:#fff4f8;border-radius:13px;border:1px solid #f8dae7;padding:14px;color:#7f4771;line-height:1.9}
+.love64-duo-recap{margin:0 0 13px;padding:0;list-style:none;display:grid;gap:8px}
+.love64-duo-recap li{display:flex;gap:9px;align-items:center;justify-content:space-between;padding:10px 11px;background:#faf8fc;border:1px solid #f1eaf3;border-radius:10px;font-size:.8rem;line-height:1.6}
+.love64-duo-recap li span{flex:1;min-width:0}.love64-duo-recap li strong{color:#b44d82;font-size:.76rem;white-space:nowrap}
+.love64-duo-tip{background:#f4fbf7;border-radius:13px;padding:14px;margin:14px 0;color:#40715b}
+.love64-duo-tip p{font-size:.87rem;line-height:1.75;margin:6px 0 0}
+.love64-duo-share-result{width:100%;border:0;border-radius:12px;background:linear-gradient(100deg,#f45d91,#e54f88);min-height:52px;padding:12px;color:white;font-size:.95rem;font-weight:900;cursor:pointer}
+#love64-duo-show-result:focus-visible,.love64-duo-share-result:focus-visible{outline:3px solid #6557ed;outline-offset:2px}
+@media(max-width:390px){.love64-duo-result{padding:0 11px 13px}.love64-duo-result-top{margin:0 -11px 13px}.love64-duo-counts{gap:6px}.love64-duo-count{padding:10px}.love64-duo-recap li{gap:6px;padding:9px 7px}}
+</style>
 <style id="love64-new-compat-ui">
 .love64-compat-deep{margin:23px 0 16px}.love64-compat-deep h2{font-size:1.1rem;color:#a9497f;margin:0 0 12px}
 .love64-compat-scene{border:1px solid #f0dfe9;background:#fffafd;border-radius:15px;padding:15px;margin:10px 0}.love64-compat-scene:nth-of-type(2){background:#f9f6ff}.love64-compat-scene:nth-of-type(3){background:#fff8f5}
@@ -82,10 +109,29 @@
  </section>
  <section class="love64-duo-panel" id="love64-duo">
   <div class="love64-duo-head"><span>🎲 TWO HEARTS GAME</span><h2>恋人と遊べる「どっちが〇〇？」</h2>
-  <p>6問に答えて、2人の恋愛のクセを比べよう。正解はタイプではなく、ふたりの本音！</p></div>
+  <p>6問で『ふたりの役割分担』を結果発表！ 答えが揃うとタイプの予想との違いや、意外な共通点が分かるよ。</p></div>
   <div id="love64-duo-list"></div>
   <p id="love64-duo-progress" role="status"></p>
-  <div class="love64-extra-buttons"><button type="button" class="love64-extra-button secondary" id="love64-duo-reset">もう一度遊ぶ</button><button type="button" class="love64-extra-button" id="love64-duo-copy">ふたりの回答をコピー</button></div>
+  <div class="love64-duo-reveal-row"><button type="button" id="love64-duo-show-result">🎉 ふたりの結果を見る →</button></div>
+  <section id="love64-duo-result" class="love64-duo-result" hidden aria-label="ふたりのゲーム結果">
+    <div class="love64-duo-result-top">
+      <span class="love64-duo-result-kicker">💞 RESULT / 6 QUESTIONS</span>
+      <h3 id="love64-duo-result-title"></h3>
+      <p id="love64-duo-result-subtitle"></p>
+    </div>
+    <h4>ふたりの回答バランス</h4>
+    <div id="love64-duo-counts" class="love64-duo-counts"></div>
+    <div class="love64-duo-insight">
+      <strong id="love64-duo-match"></strong>
+      <p>タイプからの予想は遊び用の目安。正解や交際成功率ではないよ。</p>
+    </div>
+    <div class="love64-duo-surprise" id="love64-duo-surprise"></div>
+    <h4>全6問のおさらい</h4>
+    <ol class="love64-duo-recap" id="love64-duo-recap"></ol>
+    <div class="love64-duo-tip"><strong>💬 次の会話ネタ</strong><p id="love64-duo-result-tip"></p></div>
+    <button type="button" class="love64-duo-share-result" id="love64-duo-share-result">📲 この結果をシェアする</button>
+  </section>
+  <div class="love64-extra-buttons"><button type="button" class="love64-extra-button secondary" id="love64-duo-reset">もう一度遊ぶ</button><button type="button" class="love64-extra-button" id="love64-duo-copy">ゲーム結果をシェア</button></div>
   <p id="love64-duo-status" role="status"></p>
  </section>
   <div class="love64-extra-buttons">
@@ -99,14 +145,14 @@
  <details class="love64-editorial-details" aria-label="運営・編集情報">
   <summary>運営・編集情報を見る</summary>
   <div class="love64-editorial-bottom-info">
-   <strong>KOROPOP GAMES編集部</strong><span>最終更新：2026/10/10</span>
+   <strong>KOROPOP GAMES編集部</strong><span>最終更新：2026/10/13</span>
    <p>診断の数値は娯楽・自己理解のための目安です。<br>個人の性格や恋愛関係を保証するものではありません。</p>
    <div><a href="about.html#editorial-policy">編集方針</a> · <a href="contact.html">お問い合わせ</a></div>
   </div>
 </details>
 </main>
-<script src="assets/love64-story.js?v=20261013-loveplus1"></script>
-<script src="assets/love64-duo.js?v=20261013-loveplus1"></script>
+<script src="assets/love64-story.js?v=20261013-words-and-results2"></script>
+<script src="assets/love64-duo.js?v=20261013-duo-result-v2"></script>
 <script>
 (function(){
 'use strict';
