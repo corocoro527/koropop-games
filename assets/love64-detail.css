@@ -15,3 +15,10 @@ a{color:inherit}button{font:inherit}
 footer{padding:25px 15px 90px;text-align:center;color:#817687;font-size:.72rem;line-height:1.7}
 @media(max-width:570px){.sitehead>.wrap{min-height:60px}.hero{padding:18px 14px;border-radius:20px}.detail-section{padding:18px 16px}.scene-list{grid-template-columns:1fr}.more-types{grid-template-columns:1fr}.more-types a{padding:12px}.hero .portrait{width:min(88%,260px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.love64-real-talk h3{font-size:1.01rem;color:#a14a80;margin:19px 0 7px}
+.love64-dialog{padding:15px;background:linear-gradient(130deg,#f7f3ff,#fff8fc);border:1px solid #ece0f2;border-radius:17px;margin:16px 0}
+.love64-dialog>span{font-size:.77rem;color:#9a6b98;font-weight:900}
+.love64-dialog blockquote{display:block;background:#e1f5e9;color:#385a48;border-radius:17px 17px 5px 17px;margin:10px 0 13px auto;padding:12px 16px;width:fit-content;max-width:90%;font-size:.91rem;font-weight:750;line-height:1.7}
+.love64-dialog p{margin:0!important;font-size:.85rem!important;color:#765c83!important}
+.love64-note{font-size:.76rem!important;color:#897c90!important;line-height:1.8!important}

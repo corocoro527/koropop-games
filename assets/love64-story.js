@@ -78,8 +78,8 @@ async function cardBlob(d){
  const art=new Image();art.decoding='async';art.src='assets/love64-hq/'+d.base+'.webp';
  await new Promise((resolve,reject)=>{art.onload=resolve;art.onerror=reject;if(art.complete&&art.naturalWidth)resolve()});
  const aspect=art.naturalWidth/art.naturalHeight;
- const ht=640,wd=Math.min(740,Math.round(ht*aspect));
- c.drawImage(art,540-wd/2,435,wd,ht);
+ const ht=Math.min(470,Math.max(240,Math.round(art.naturalHeight*1.3))),wd=Math.min(560,Math.round(ht*aspect));
+ c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(art,540-wd/2,545,wd,ht);
  roundedFill(c,107,1090,866,225,30,'#fff3f8');
  c.fillStyle='#c04d82';c.font='850 33px system-ui,sans-serif';c.fillText('🫣  実はこんな一面も…',540,1146);
  c.fillStyle='#3d3046';c.font='750 35px system-ui,sans-serif';drawLines(c,d.hidden,540,1218,760,52,2);
@@ -89,7 +89,7 @@ async function cardBlob(d){
  c.fillStyle='#9b7a9b';c.font='750 30px system-ui,sans-serif';c.fillText('恋の自分、どれくらい当たってる？',540,1688);
  roundedFill(c,248,1720,584,82,28,'#f35d90');
  c.fillStyle='white';c.font='900 34px system-ui,sans-serif';c.fillText('私も無料で診断する →',540,1774);
- c.fillStyle='#a08eaa';c.font='700 23px system-ui,sans-serif';c.fillText('koropopgames.com/love64.html',540,1835);
+ c.fillStyle='#a08eaa';c.font='700 23px system-ui,sans-serif';c.fillText('shindan.koropopgames.com/love64.html',540,1835);
  return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('image generation failed')),'image/png'));
 }
 function openCardPreview(blob,d){
