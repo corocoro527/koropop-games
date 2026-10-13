@@ -46,7 +46,7 @@ async function copy(s){
 async function share(){
  if(!active)return;
  const data={title:'恋タイプ64｜'+active.base+' '+active.style.label,text:shareText(active),url:getShareUrl(active)};
- try{if(navigator.share){await navigator.share(data);return;}}catch(err){if(err&&err.name==='AbortError')return;}
+ try{if(navigator.share){await navigator.share(data);if(typeof gtag==='function')gtag('event','love64_result_share',{type:active.base+'-'+active.sub});return;}}catch(err){if(err&&err.name==='AbortError')return;}
  const ok=await copy(data.text+'\n'+data.url);const msg=document.getElementById('love64-story-status');if(msg)msg.textContent=ok?'シェア用テキストとリンクをコピーしました。':'以下のリンクを開いて共有してください：'+data.url;
 }
 async function copyMyResult(){if(!active)return;const ok=await copy(shareText(active)+'\n'+getShareUrl(active));const msg=document.getElementById('love64-story-status');if(msg)msg.textContent=ok?'結果をコピーしました':'コピーできませんでした。';}
@@ -119,7 +119,7 @@ function openCardPreview(blob,d){
 async function saveCard(){
  if(!active)return;
  const status=document.getElementById('love64-story-status');if(status)status.textContent='シェア画像を作成中…';
- try{const blob=await cardBlob(active);openCardPreview(blob,active);if(status)status.textContent='シェア画像を作成しました。';}
+ try{const blob=await cardBlob(active);openCardPreview(blob,active);if(typeof gtag==='function')gtag('event','love64_result_card_preview',{type:active.base+'-'+active.sub});if(status)status.textContent='シェア画像を作成しました。';}
  catch(err){if(status)status.textContent='画像を作成できませんでした。結果テキストを共有してください。';}
 }
 function byCode(raw){if(!raw)return null;let m=String(raw).toUpperCase().match(/^([EI][NS][TF][JP])-(SD|SW|AD|AW)$/);return m?details(m[1],m[2]):null}

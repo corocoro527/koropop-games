@@ -16,7 +16,9 @@ function pickGuess(q){
  return Math.abs(a-b)<1?'ふたりとも':a>b?'自分':'相手';
 }
 function mark(id,value){
+ const oldCount=Object.keys(answers).length;
  answers[id]=value;
+ if(typeof gtag==='function'){gtag('event','love64_duo_answer',{question_number:id+1});if(oldCount===questions.length-1&&Object.keys(answers).length===questions.length)gtag('event','love64_duo_complete');}
  const section=document.querySelector('[data-love64-duo-id="'+id+'"]');
  if(!section)return;
  for(const button of section.querySelectorAll('button[data-pick]'))button.setAttribute('aria-pressed',String(button.dataset.pick===value));
