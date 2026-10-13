@@ -73,6 +73,44 @@
 #love64-duo-progress{font-weight:800;font-size:.8rem;color:#a45079}
 #love64-duo-status{min-height:1.5em;font-size:.8rem;color:#a45079}
 .love64-duo-choices button:focus-visible{outline:3px solid #7262ed;outline-offset:2px}
+</style>
+<style id="love64-two-player-v3">
+details.love64-duo-panel{margin:26px 0 8px;padding:0;border:1px solid #efd7e4;border-radius:20px;overflow:hidden;background:#fff;}
+details.love64-duo-panel>summary{list-style:none;cursor:pointer;background:linear-gradient(115deg,#fff0f7,#f3ecff);padding:20px 18px;display:flex;flex-direction:column;gap:5px;border-radius:19px;}
+details.love64-duo-panel>summary::-webkit-details-marker{display:none}
+details.love64-duo-panel>summary::after{content:'開く ↓';font-size:.75rem;color:#b25181;font-weight:850;align-self:flex-end}
+details.love64-duo-panel[open]>summary::after{content:'閉じる ↑'}
+.love64-duo-summary strong{font-size:1.05rem;color:#a73c7a}.love64-duo-summary span{font-size:.83rem;color:#8b6582;line-height:1.55}
+.love64-duo-inner{padding:16px 14px 20px}.love64-duo-intro{font-size:.81rem;line-height:1.8;color:#7d6479;margin:0 0 15px}
+.love64-duo-step{font-size:.8rem;font-weight:950;color:#b84f81;letter-spacing:.04em}
+.love64-duo-step-title{font-size:1.17rem;line-height:1.55;color:#402f4d;margin:13px 0}
+.love64-duo-help{line-height:1.75;color:#524158;font-size:.92rem}.love64-duo-fineprint{font-size:.78rem;color:#877787;line-height:1.7}
+.love64-duo-meter{height:7px;border-radius:99px;overflow:hidden;background:#f6e3ed;margin:11px 0 19px}
+.love64-duo-meter-fill{height:100%;border-radius:99px;background:linear-gradient(95deg,#f56c9c,#9671e4);transition:width .15s}
+.love64-duo-choices{margin:13px 0 18px}
+.love64-duo-choices .love64-duo-option{min-height:59px;font-size:.94rem;border-radius:14px}
+.love64-duo-option[aria-pressed="true"]{border-color:#e85090!important;background:#fbe1ee!important;color:#a72e70!important;box-shadow:inset 0 0 0 1px #e85090}
+.love64-duo-nav{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+.love64-duo-main-button{flex:1;min-height:52px;padding:12px;border:0;border-radius:13px;color:#fff;font-size:.93rem;font-weight:900;background:linear-gradient(95deg,#f4578d,#9e68de);cursor:pointer}
+.love64-duo-main-button[disabled]{background:#d6cad5;cursor:not-allowed;box-shadow:none}
+.love64-duo-back{border:1px solid #e6d9e5;background:white;border-radius:12px;color:#866c87;padding:12px;font-weight:850;cursor:pointer}
+#love64-duo-progress{padding-top:9px;font-weight:800;line-height:1.7;font-size:.78rem;color:#a45079}
+.love64-duo-result[hidden]{display:none!important}
+.love64-duo-result{scroll-margin-top:20px}
+.love64-duo-result-top{margin:0 -15px 16px}
+.love64-duo-counts{grid-template-columns:repeat(2,minmax(0,1fr))}
+.love64-duo-recap .love64-duo-recap-item{display:block;padding:13px;border:1px solid #f0e5ec;border-radius:13px;background:#fffafd;margin:0}
+.love64-duo-recap-item>strong{display:block;line-height:1.6;font-size:.88rem;color:#48364c}
+.love64-duo-recap-answers{display:flex;flex-wrap:wrap;align-items:center;gap:5px 10px;margin-top:9px;font-size:.79rem;line-height:1.6}
+.love64-duo-recap-answers span{color:#98627b;background:#fdf0f7;padding:5px 8px;border-radius:6px;flex:0 0 auto!important}
+.love64-duo-recap-badge{font-size:.75rem;font-style:normal;font-weight:850;padding:5px 8px;border-radius:6px;margin-left:auto}
+.love64-duo-recap-badge.matched{color:#3b8b6b;background:#eaf8f2}.love64-duo-recap-badge.unmatched{color:#9650a1;background:#f3eafb}
+.love64-duo-recap-hint{color:#726274;font-size:.78rem;margin:10px 0 0;line-height:1.8}
+.love64-duo-result-actions{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.love64-duo-result-actions button{border-radius:12px;min-height:49px;padding:8px;font-size:.85rem;font-weight:900;cursor:pointer}
+.love64-duo-share-result{width:auto}
+.love64-duo-restart{border:1px solid #ead9e5;color:#8f5485;background:#fff9fc}
+details.love64-duo-panel>summary:focus-visible,.love64-duo-inner button:focus-visible{outline:3px solid #6c5be3;outline-offset:3px}
 </style></head>
 <body class="love64-extra-page">
 <header class="love64-extra-header"><a href="love64.html">♡ 恋タイプ64</a><a href="love64-types.html">64タイプ図鑑</a></header>
@@ -107,33 +145,36 @@
   <div class="love64-compat-scene"><h3>💗 愛情表現のしかた</h3><p id="compat-scene-love"></p></div>
   <div class="love64-compat-scene"><h3>🫶 喧嘩・仲直り</h3><p id="compat-scene-conflict"></p></div>
  </section>
- <section class="love64-duo-panel" id="love64-duo">
-  <div class="love64-duo-head"><span>🎲 TWO HEARTS GAME</span><h2>恋人と遊べる「どっちが〇〇？」</h2>
-  <p>6問で『ふたりの役割分担』を結果発表！ 答えが揃うとタイプの予想との違いや、意外な共通点が分かるよ。</p></div>
-  <div id="love64-duo-list"></div>
-  <p id="love64-duo-progress" role="status"></p>
-  <div class="love64-duo-reveal-row"><button type="button" id="love64-duo-show-result">🎉 ふたりの結果を見る →</button></div>
-  <section id="love64-duo-result" class="love64-duo-result" hidden aria-label="ふたりのゲーム結果">
-    <div class="love64-duo-result-top">
-      <span class="love64-duo-result-kicker">💞 RESULT / 6 QUESTIONS</span>
-      <h3 id="love64-duo-result-title"></h3>
-      <p id="love64-duo-result-subtitle"></p>
-    </div>
-    <h4>ふたりの回答バランス</h4>
-    <div id="love64-duo-counts" class="love64-duo-counts"></div>
-    <div class="love64-duo-insight">
-      <strong id="love64-duo-match"></strong>
-      <p>タイプからの予想は遊び用の目安。正解や交際成功率ではないよ。</p>
-    </div>
-    <div class="love64-duo-surprise" id="love64-duo-surprise"></div>
-    <h4>全6問のおさらい</h4>
-    <ol class="love64-duo-recap" id="love64-duo-recap"></ol>
-    <div class="love64-duo-tip"><strong>💬 次の会話ネタ</strong><p id="love64-duo-result-tip"></p></div>
-    <button type="button" class="love64-duo-share-result" id="love64-duo-share-result">📲 この結果をシェアする</button>
-  </section>
-  <div class="love64-extra-buttons"><button type="button" class="love64-extra-button secondary" id="love64-duo-reset">もう一度遊ぶ</button><button type="button" class="love64-extra-button" id="love64-duo-copy">ゲーム結果をシェア</button></div>
-  <p id="love64-duo-status" role="status"></p>
- </section>
+ <details class="love64-duo-panel" id="love64-duo">
+  <summary class="love64-duo-summary"><strong>🎲 ふたりで答え合わせゲーム</strong><span>同じ6問を2人で回答して、意外な違いを発見する（約2分）</span></summary>
+  <div class="love64-duo-inner">
+    <p class="love64-duo-intro">片方だけが答えるゲームは卒業！ 2人の回答を比べるから、ちゃんと結果に意味がある。</p>
+    <div id="love64-duo-list"></div>
+    <p id="love64-duo-progress" role="status" aria-live="polite"></p>
+    <section id="love64-duo-result" class="love64-duo-result" hidden aria-label="ふたりの答え合わせ結果">
+      <div class="love64-duo-result-top">
+        <span class="love64-duo-result-kicker">💞 TWO HEARTS / ANSWER REVEAL</span>
+        <h3 id="love64-duo-result-title"></h3>
+        <p id="love64-duo-result-subtitle"></p>
+      </div>
+      <h4>回答はどれくらい同じ？</h4>
+      <div id="love64-duo-counts" class="love64-duo-counts"></div>
+      <div class="love64-duo-insight">
+        <strong id="love64-duo-match"></strong>
+        <p>一致数は恋愛の点数ではありません。違ったところが会話のきっかけ！</p>
+      </div>
+      <div class="love64-duo-surprise" id="love64-duo-surprise"></div>
+      <h4>6問ぜんぶ答え合わせ</h4>
+      <ol class="love64-duo-recap" id="love64-duo-recap"></ol>
+      <div class="love64-duo-tip"><strong>💬 ふたりで話すなら</strong><p id="love64-duo-result-tip"></p></div>
+      <div class="love64-duo-result-actions">
+        <button type="button" class="love64-duo-share-result" id="love64-duo-share-result">📲 結果をシェア</button>
+        <button type="button" class="love64-duo-restart" id="love64-duo-reset">もう一度遊ぶ</button>
+      </div>
+    </section>
+    <p id="love64-duo-status" role="status" aria-live="polite"></p>
+  </div>
+</details>
   <div class="love64-extra-buttons">
    <button type="button" class="love64-extra-button secondary" id="compat-share">結果のリンクをコピー</button>
    <a class="love64-extra-button" href="love64.html">別の人も診断する</a>
@@ -151,8 +192,8 @@
   </div>
 </details>
 </main>
-<script src="assets/love64-story.js?v=20261013-words-and-results2"></script>
-<script src="assets/love64-duo.js?v=20261013-duo-result-v2"></script>
+<script src="assets/love64-story.js?v=20261013-dialogue64-v4"></script>
+<script src="assets/love64-duo.js?v=20261013-two-players-v3"></script>
 <script>
 (function(){
 'use strict';

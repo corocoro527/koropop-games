@@ -1,138 +1,135 @@
-/* Love64 TWO HEARTS: six-question, original interactive relationship conversation game */
+/* Love64 two-player conversation game: each person answers privately; no predictive compatibility score. */
 (function(){
 'use strict';
 const questions=[
- {title:'どっちが先に「会いたい」って言いそう？',hint:'言ってほしいタイミングや言葉、二人で話してみよう。',metric:d=>(['SD','AD'].includes(d.sub)?3:1)+(d.base[0]==='E'?1:0)},
- {title:'どっちがちょっぴり嫉妬しやすそう？',hint:'嫉妬と愛情の強さは別。気になったときの安心の仕方を共有してみよう。',metric:d=>(['AD','AW'].includes(d.sub)?3:1)+(d.base[2]==='F'?1:0)},
- {title:'デートの予定、どっちが考えそう？',hint:'次の休日は、いつもと逆の人が行き先を決めてみる？',metric:d=>(['SD','AD'].includes(d.sub)?2:0)+(d.base[3]==='J'?2:0)},
- {title:'喧嘩したあと先に声をかけるのは？',hint:'すぐ話す派と一度考える派。どれくらい待ってほしいか聞いてみよう。',metric:d=>(['SD','AD'].includes(d.sub)?2:0)+(d.base[0]==='E'?1:0)},
- {title:'どっちがサプライズを仕掛けそう？',hint:'得意不得意はあっても、どんな気遣いがうれしいかは話せる。',metric:d=>(d.base[0]==='E'?2:0)+(d.base[3]==='P'?2:0)},
- {title:'好きな気持ちを言う前に悩みそうなのは？',hint:'照れくさい時はどう伝える？ 言いやすい言葉を考えてみよう。',metric:d=>(['SW','AW'].includes(d.sub)?2:0)+(d.base[0]==='I'?1:0)}
+ {title:'先に「会いたい」と言うのは？',talk:'実際に最近「会おう」と誘ったのはどっち？'},
+ {title:'デートの行き先を決めるのは？',talk:'次のデートはどっちが決めたい？'},
+ {title:'LINEで先に連絡するのは？',talk:'連絡の頻度は今のままでちょうどいい？'},
+ {title:'気まずくなったあと、先に声をかけるのは？',talk:'言い合いになったら、すぐ話したい？ 少し時間がほしい？'},
+ {title:'相手のちょっとした変化に気づくのは？',talk:'最近、相手のことで気づいた小さな変化は？'},
+ {title:'「好き」「ありがとう」を先に言うのは？',talk:'どんな言葉や行動がいちばんうれしい？'}
 ];
 const choices=[['me','自分'],['you','相手'],['both','ふたりとも'],['neither','どちらでもない']];
-let first=null,second=null,answers={},labels={},revealed=false;
-const id=x=>document.getElementById(x);
-function label(v){return choices.find(x=>x[0]===v)?.[1]||'未回答'}
-function guess(q){const a=q.metric(first),b=q.metric(second);return Math.abs(a-b)<1?'both':a>b?'me':'you'}
-function tallies(){const v={me:0,you:0,both:0,neither:0};Object.values(answers).forEach(x=>{if(x in v)v[x]++});return v}
-function resultData(){
- const v=tallies(),n=Object.keys(answers).length;
- const matched=questions.filter((q,i)=>answers[i]===guess(q)).length;
- let title='役割交代が得意なバランスコンビ';
- let subtitle='場面ごとに主役が入れ替わる、自由なふたり。';
- let tip='次のデートでは「何を決めたいか」を一つずつ言ってみよう。';
- if(v.both>=3){title='似た者同士のシンクロコンビ';subtitle='なんだかんだ、ふたりで同じ方向を見がち。';tip='やりたいことがかぶったら、日程を決めるところまで一緒に！';}
- else if(v.neither>=3){title='マイペースを楽しむコンビ';subtitle='無理にどちらかが引っ張らなくても心地いいふたり。';tip='迷ったときは「今日はこっち！」と交互に決めるのも楽しい。';}
- else if(v.me>=3){title='あなたが前に出るリードコンビ';subtitle='この6問では、あなたが一歩先に動く場面が多め。';tip='今度は相手に「どこ行きたい？」って聞いてみて。';}
- else if(v.you>=3){title='相手が一歩先に動くコンビ';subtitle='この6問では、相手が行動を起こす場面が多め。';tip='次はあなたから「会おう！」って誘うのもあり。';}
- else if(v.both>=2){title='気持ちを共有する仲良しコンビ';subtitle='一緒に動く場面が多くて、共通点も見つかりそう。';tip='同じ答えだった質問を、相手にも聞いてみよう。';}
- else if(v.neither>=2){title='お互いのペースを守るコンビ';subtitle='急がず、それぞれの時間を大切にできそう。';tip='たまには二人で新しいことを決めてみて。';}
- const surprise=questions.map((q,i)=>({i,mismatch:answers[i]!==guess(q)})).find(x=>x.mismatch);
- return {v,n,matched,title,subtitle,tip,surprise};
+let first=null,second=null,phase='intro',index=0,picks=[[],[]];
+const $=id=>document.getElementById(id);
+const text=(tag,content,cls)=>{const el=document.createElement(tag);el.textContent=content;if(cls)el.className=cls;return el};
+const playerLabel=p=>p===0?'あなた':'お相手';
+const humanChoice=code=>({'me':'あなた','you':'お相手','both':'ふたりとも','neither':'どちらでもない'})[code]||'未回答';
+function normalize(raw,player){if(raw==='both'||raw==='neither')return raw;if(player===1)return raw==='me'?'you':'me';return raw;}
+function emit(name,params){if(typeof gtag==='function')gtag('event',name,params||{})}
+function setProgress(str){const p=$('love64-duo-progress');if(p)p.textContent=str;}
+function clearList(){const el=$('love64-duo-list');if(el)el.replaceChildren();return el}
+function button(label,fn,cls=''){const b=text('button',label,cls);b.type='button';b.addEventListener('click',fn);return b}
+function moveToResults(){
+ const r=$('love64-duo-result');if(!r)return;
+ if(r.scrollIntoView)requestAnimationFrame(()=>r.scrollIntoView({behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}));
 }
-function clearResult(){
- revealed=false;
- const card=id('love64-duo-result');
- if(card){card.hidden=true}
- const msg=id('love64-duo-status');if(msg)msg.textContent='';
+function renderIntro(){
+ phase='intro';index=0;const root=clearList();if(!root)return;
+ root.append(text('h3','ふたりで答えると、違いが見える','love64-duo-step-title'));
+ root.append(text('p','まずあなたが6問答える → スマホを相手に渡す → 相手も6問答える。最後にふたりの回答を比較するで。','love64-duo-help'));
+ root.append(text('p','※相手の回答中は、あなたの回答は見えません。タイプだけで相性を決めるゲームではありません。','love64-duo-fineprint'));
+ root.append(button('自分の6問を始める →',()=>{phase='p1';index=0;renderQuestion()},'love64-duo-main-button'));
+ setProgress('ふたりで約2分。二人とも回答すると結果が見られます。');
+ const result=$('love64-duo-result');if(result)result.hidden=true;
 }
-function showResult(scroll){
- if(Object.keys(answers).length!==questions.length){
-  const progress=id('love64-duo-status');if(progress)progress.textContent='残り'+(questions.length-Object.keys(answers).length)+'問です。全6問に答えると結果が見られます。';
-  return false;
- }
- const d=resultData(),card=id('love64-duo-result');if(!card)return false;
- id('love64-duo-result-title').textContent=d.title;
- id('love64-duo-result-subtitle').textContent=d.subtitle;
- id('love64-duo-result-tip').textContent=d.tip;
- const counts=id('love64-duo-counts');counts.replaceChildren();
- const statItems=[['me','あなた'],['you','相手'],['both','ふたりとも'],['neither','どちらでもない']];
- statItems.forEach(([key,name])=>{
-  const item=document.createElement('div');item.className='love64-duo-count';
-  const num=document.createElement('strong');num.textContent=d.v[key]+'問';
-  const title=document.createElement('span');title.textContent=name;
-  const bar=document.createElement('i');bar.style.width=(d.v[key]/6*100)+'%';
-  item.append(title,num,bar);counts.appendChild(item);
+function renderQuestion(){
+ const player=phase==='p1'?0:1;const q=questions[index];const root=clearList();if(!root)return;
+ const percent=Math.round((index/6)*100);
+ root.append(text('p',player===0?'STEP 1/2　あなたの番':'STEP 2/2　お相手の番','love64-duo-step'));
+ const bar=document.createElement('div');bar.className='love64-duo-meter';
+ const fill=document.createElement('div');fill.className='love64-duo-meter-fill';fill.style.width=percent+'%';bar.append(fill);root.append(bar);
+ root.append(text('h3',(index+1)+'/6　'+q.title,'love64-duo-step-title'));
+ root.append(text('p','自分の目線で、近いと思うものを選んでね。','love64-duo-help'));
+ const grid=document.createElement('div');grid.className='love64-duo-choices';
+ for(const [value,label] of choices){const b=button(label,()=>{picks[player][index]=value;renderQuestion()},'love64-duo-option');b.setAttribute('aria-pressed',String(picks[player][index]===value));grid.append(b);}
+ root.append(grid);
+ const nav=document.createElement('div');nav.className='love64-duo-nav';
+ if(index>0)nav.append(button('← 前の質問',()=>{index--;renderQuestion()},'love64-duo-back'));
+ const next=button(index===5?(player===0?'回答を終える →':'答え合わせする 🎉'):'次の質問 →',()=>{
+  if(!picks[player][index])return;
+  if(index<5){index++;renderQuestion();return;}
+  if(player===0){phase='handoff';renderHandoff();emit('love64_duo_player1_complete')}
+  else {phase='result';renderResult();emit('love64_duo_complete')}
+ },'love64-duo-main-button');
+ next.disabled=!picks[player][index];nav.append(next);root.append(nav);
+ setProgress(playerLabel(player)+'の回答：'+(index+1)+' / 6問');
+}
+function renderHandoff(){
+ const root=clearList();if(!root)return;
+ root.append(text('div','✅ あなたの6問が終わりました','love64-duo-step-title'));
+ root.append(text('p','ここからはお相手の番。あなたの回答は隠しているので、そのままスマホを渡してください。','love64-duo-help'));
+ root.append(text('p','相手も6問選んだら、ふたりの「一致」「違い」をまとめて発表します。','love64-duo-fineprint'));
+ root.append(button('お相手の回答を始める →',()=>{phase='p2';index=0;renderQuestion()},'love64-duo-main-button'));
+ setProgress('1人目完了。次は2人目の回答です。');
+}
+function analyze(){
+ const rows=questions.map((q,i)=>{
+  const a=normalize(picks[0][i],0),b=normalize(picks[1][i],1);
+  return {q,a,b,match:a===b};
  });
- const match=id('love64-duo-match');
- match.textContent='タイプからの遊び予想と '+d.matched+' / 6 問一致！';
- const surprise=id('love64-duo-surprise');
- if(d.surprise){
-  const n=d.surprise.i,q=questions[n];
-  surprise.textContent='👀 ここが意外！「'+q.title+'」\nあなたの答え：'+label(answers[n])+' ／ タイプの遊び予想：'+label(guess(q))+'。\n'+q.hint;
- }else{
-  surprise.textContent='👀 全6問がタイプの遊び予想と一致！ でも本当のふたりは、タイプだけでは決められない。いちばん共感した質問を話してみよう。';
- }
- const listing=id('love64-duo-recap');listing.replaceChildren();
- questions.forEach((q,i)=>{
-  const li=document.createElement('li');
-  const name=document.createElement('span');name.textContent=q.title;
-  const answer=document.createElement('strong');answer.textContent=label(answers[i]);
-  li.append(name,answer);listing.appendChild(li);
- });
- card.hidden=false;revealed=true;
- const status=id('love64-duo-status');if(status)status.textContent='';
- if(scroll&&card.scrollIntoView){
-  requestAnimationFrame(()=>card.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}));
- }
- if(typeof gtag==='function')gtag('event','love64_duo_result_view',{result_type:d.title,playful_matches:d.matched});
- return true;
+ const matches=rows.filter(r=>r.match).length;const gaps=rows.length-matches;
+ let title='意外な発見が多いふたり';
+ let lead='思っていた役割に違いがありそう。違いを知るのも面白い。';
+ if(matches===6){title='予想がぴったりなふたり';lead='6問ぜんぶ同じ予想！どんな場面を思い浮かべたかも聞いてみて。'}
+ else if(matches>=4){title='似ているところが多いふたり';lead='だいたい同じように二人を見ているみたい。違った質問だけ掘り下げてみよう。'}
+ else if(matches>=2){title='同じところも違うところもあるふたり';lead='話してみると「そう思ってたんだ！」が見つかりそう。'}
+ return {rows,matches,gaps,title,lead};
 }
-function mark(index,value){
- const previouslyFull=Object.keys(answers).length===questions.length;
- answers[index]=value;
- const question=document.querySelector('[data-love64-duo-id="'+index+'"]');
- if(question){
-  for(const btn of question.querySelectorAll('button[data-pick]'))btn.setAttribute('aria-pressed',String(btn.dataset.pick===value));
-  const note=question.querySelector('.love64-duo-note');
-  if(note){note.hidden=false;note.textContent='回答：'+label(value)+'　（後から変更できます）'}
+function renderResult(){
+ const root=clearList();if(root)root.replaceChildren();
+ const result=$('love64-duo-result');if(!result)return;
+ const out=analyze();
+ $('love64-duo-result-title').textContent=out.title;
+ $('love64-duo-result-subtitle').textContent=out.lead;
+ $('love64-duo-match').textContent='予想が一致 '+out.matches+'/6問　／　違った '+out.gaps+'問';
+ const counts=$('love64-duo-counts');counts.replaceChildren();
+ for(const [number,word] of [[out.matches,'同じ予想'],[out.gaps,'違う予想']]){
+  const card=document.createElement('div');card.className='love64-duo-count';
+  card.append(text('span',word),text('strong',number+'問'));counts.append(card);
  }
- const n=Object.keys(answers).length;
- const progress=id('love64-duo-progress');
- if(progress)progress.textContent=n+' / '+questions.length+'問に回答しました。'+(n===questions.length?' 完了！結果を発表します。':' 残り'+(questions.length-n)+'問で結果発表！');
- if(typeof gtag==='function')gtag('event','love64_duo_answer',{question_number:index+1});
- if(n===questions.length){
-  if(!previouslyFull&&typeof gtag==='function')gtag('event','love64_duo_complete');
-  showResult(!previouslyFull);
- }else clearResult();
-}
-function render(a,b){
- if(!a||!b)return;
- first=a;second=b;answers={};revealed=false;
- labels={me:a.base+'-'+a.greek,you:b.base+'-'+b.greek};
- const list=id('love64-duo-list');if(!list)return;
- list.replaceChildren();
- for(const [i,q] of questions.entries()){
-  const section=document.createElement('section');section.className='love64-duo-q';section.dataset.love64DuoId=String(i);
-  const heading=document.createElement('h3');heading.textContent=(i+1)+'. '+q.title;section.appendChild(heading);
-  const buttons=document.createElement('div');buttons.className='love64-duo-choices';
-  for(const [val,txt] of choices){
-   const button=document.createElement('button');button.type='button';button.textContent=txt;button.dataset.pick=val;button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>mark(i,val));buttons.appendChild(button);
-  }
-  section.appendChild(buttons);
-  const feedback=document.createElement('p');feedback.className='love64-duo-note';feedback.hidden=true;section.appendChild(feedback);
-  list.appendChild(section);
+ const firstGap=out.rows.find(r=>!r.match);
+ $('love64-duo-surprise').textContent=firstGap?
+ '👀 ここが意外！「'+firstGap.q.title+'」\nあなた：'+humanChoice(firstGap.a)+'　／　お相手：'+humanChoice(firstGap.b)+'\n'+firstGap.q.talk:
+ '🎉 全6問で同じ予想！どんな場面を思い浮かべたか、ひとつずつ聞いてみよう。';
+ const recap=$('love64-duo-recap');recap.replaceChildren();
+ for(const [i,row] of out.rows.entries()){
+  const item=document.createElement('li');item.className='love64-duo-recap-item';
+  item.append(text('strong',(i+1)+'. '+row.q.title));
+  const choicesRow=document.createElement('div');choicesRow.className='love64-duo-recap-answers';
+  choicesRow.append(text('span','あなた：'+humanChoice(row.a)));
+  choicesRow.append(text('span','お相手：'+humanChoice(row.b)));
+  choicesRow.append(text('em',row.match?'一致！':'ここが違う','love64-duo-recap-badge '+(row.match?'matched':'unmatched')));
+  item.append(choicesRow);
+  if(!row.match)item.append(text('p','話してみよう：'+row.q.talk,'love64-duo-recap-hint'));
+  recap.append(item);
  }
- const progress=id('love64-duo-progress');if(progress)progress.textContent='0 / 6問。全部答えると、ふたりの結果が出ます。';
- clearResult();
+ $('love64-duo-result-tip').textContent=firstGap?firstGap.q.talk:'次は「一番意外だった答え」をお互いに聞いてみよう。';
+ result.hidden=false;
+ setProgress('2人とも回答完了。違いを見つけて話してみよう！');
+ emit('love64_duo_result_view',{answer_agreements:out.matches});
+ moveToResults();
 }
 function resultText(){
- const d=resultData();
- return '恋タイプ64｜ふたりの6問ゲーム\n'+labels.me+' × '+labels.you+'\n'+d.title+'\n'+d.subtitle+'\n'+questions.map((q,i)=>(i+1)+'. '+q.title+'\n→ '+label(answers[i])).join('\n')+'\nタイプ予想と'+d.matched+'/6問一致\n'+d.tip+'\n※タイプによる予想は娯楽です。\n\n'+location.href;
+ const v=analyze();
+ return '恋タイプ64｜ふたりの答え合わせ\n'+first.base+'-'+first.greek+' × '+second.base+'-'+second.greek+
+ '\n'+v.title+'\n予想が一致 '+v.matches+'/6問\n'+v.rows.map((r,i)=>(i+1)+'. '+r.q.title+'\nあなた：'+humanChoice(r.a)+' ／ 相手：'+humanChoice(r.b)+(r.match?'（一致）':'（違い）')).join('\n')+
+ '\n※性格や相性の優劣を判定するものではありません。\n'+location.href;
 }
-async function shareResult(){
- if(!showResult(false))return;
- const feedback=id('love64-duo-status'),text=resultText();
- try{if(navigator.share){await navigator.share({title:'恋タイプ64｜ふたりの結果',text,url:location.href});if(feedback)feedback.textContent='共有しました。';if(typeof gtag==='function')gtag('event','love64_duo_share');return;}}
- catch(e){if(e?.name==='AbortError')return}
- try{await navigator.clipboard.writeText(text);if(feedback)feedback.textContent='ゲーム結果をコピーしました。';if(typeof gtag==='function')gtag('event','love64_duo_copy_result');}
- catch(e){if(feedback)feedback.textContent='共有できませんでした。ブラウザの共有メニューをご利用ください。'}
+async function share(){
+ if(phase!=='result'){const status=$('love64-duo-status');if(status)status.textContent='ふたりの回答が終わるとシェアできます。';return;}
+ const status=$('love64-duo-status');
+ const message=resultText();
+ try{if(navigator.share){await navigator.share({title:'恋タイプ64｜ふたりの答え合わせ',text:message,url:location.href});status.textContent='共有しました。';emit('love64_duo_share');return}}
+ catch(err){if(err&&err.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(message);status.textContent='結果をコピーしました。';emit('love64_duo_copy_result')}
+ catch(err){status.textContent='コピーできませんでした。ブラウザの共有機能をお使いください。'}
 }
+function reset(){picks=[[],[]];phase='intro';index=0;renderIntro()}
+function render(a,b){first=a;second=b;reset();}
 document.addEventListener('DOMContentLoaded',()=>{
- id('love64-duo-reset')?.addEventListener('click',()=>{if(first&&second)render(first,second)});
- id('love64-duo-copy')?.addEventListener('click',shareResult);
- id('love64-duo-share-result')?.addEventListener('click',shareResult);
- id('love64-duo-show-result')?.addEventListener('click',()=>showResult(true));
+ $('love64-duo-reset')?.addEventListener('click',reset);
+ $('love64-duo-share-result')?.addEventListener('click',share);
 });
-window.Love64Duo={render,questionsCount:questions.length,showResult};
+window.Love64Duo={render,questionsCount:questions.length};
 })();
