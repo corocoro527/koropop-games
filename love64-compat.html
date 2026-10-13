@@ -29,7 +29,24 @@
 .love64-editorial-bottom-info p{margin:6px 0!important;font-size:.74rem!important;color:#74667a!important;line-height:1.75!important}
 .love64-editorial-bottom-info a{color:#a14b7e;text-decoration:underline;text-underline-offset:2px}
 </style>
-</head>
+
+<style id="love64-new-compat-ui">
+.love64-compat-deep{margin:23px 0 16px}.love64-compat-deep h2{font-size:1.1rem;color:#a9497f;margin:0 0 12px}
+.love64-compat-scene{border:1px solid #f0dfe9;background:#fffafd;border-radius:15px;padding:15px;margin:10px 0}.love64-compat-scene:nth-of-type(2){background:#f9f6ff}.love64-compat-scene:nth-of-type(3){background:#fff8f5}
+.love64-compat-scene h3{font-size:.94rem;color:#ad4b80;margin:0 0 6px}
+.love64-compat-scene p{font-size:.91rem;white-space:pre-line;line-height:1.85;color:#57465b;margin:0}
+.love64-duo-panel{margin:24px 0 4px;padding:19px 14px;background:linear-gradient(140deg,#fff7fb,#f6f2ff);border:1px solid #f0dce8;border-radius:20px}
+.love64-duo-head span{font-size:.73rem;color:#b4568c;letter-spacing:.07em;font-weight:900}.love64-duo-head h2{font-size:1.15rem;color:#483151;margin:8px 0}.love64-duo-head p{color:#806e82;font-size:.83rem;line-height:1.7;margin:0 0 13px}
+.love64-duo-q{padding:15px 13px;margin:11px 0;border:1px solid #ecdce8;background:#fff;border-radius:15px}
+.love64-duo-q h3{font-size:.95rem;color:#4a364e;margin:0 0 12px;line-height:1.6}
+.love64-duo-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.love64-duo-choices button{min-height:45px;border:1px solid #eecbdd;background:#fff9fc;color:#a94e7c;border-radius:10px;font-weight:850;font-size:.86rem;cursor:pointer}
+.love64-duo-choices button[aria-pressed=true]{border-color:#ef5189;background:#ffe4ee;color:#ad366b}
+.love64-duo-note{color:#745b76;background:#fbf5ff;border-radius:10px;margin:11px 0 0;padding:10px 12px;font-size:.8rem;line-height:1.8}
+#love64-duo-progress{font-weight:800;font-size:.8rem;color:#a45079}
+#love64-duo-status{min-height:1.5em;font-size:.8rem;color:#a45079}
+.love64-duo-choices button:focus-visible{outline:3px solid #7262ed;outline-offset:2px}
+</style></head>
 <body class="love64-extra-page">
 <header class="love64-extra-header"><a href="love64.html">♡ 恋タイプ64</a><a href="love64-types.html">64タイプ図鑑</a></header>
 <main class="love64-extra-main">
@@ -57,6 +74,20 @@
   <h2 id="compat-heading" style="text-align:center"></h2>
   <p id="compat-intro"></p>
   <div class="love64-compat-advice"><strong>すれ違いを減らすコツ</strong><p id="compat-advice"></p></div>
+ <section id="compat-deep" class="love64-compat-deep">
+  <h2>🔍 ふたりの違いをのぞいてみよう</h2>
+  <div class="love64-compat-scene"><h3>📱 LINE・連絡のペース</h3><p id="compat-scene-line"></p></div>
+  <div class="love64-compat-scene"><h3>💗 愛情表現のしかた</h3><p id="compat-scene-love"></p></div>
+  <div class="love64-compat-scene"><h3>🫶 喧嘩・仲直り</h3><p id="compat-scene-conflict"></p></div>
+ </section>
+ <section class="love64-duo-panel" id="love64-duo">
+  <div class="love64-duo-head"><span>🎲 TWO HEARTS GAME</span><h2>恋人と遊べる「どっちが〇〇？」</h2>
+  <p>6問に答えて、2人の恋愛のクセを比べよう。正解はタイプではなく、ふたりの本音！</p></div>
+  <div id="love64-duo-list"></div>
+  <p id="love64-duo-progress" role="status"></p>
+  <div class="love64-extra-buttons"><button type="button" class="love64-extra-button secondary" id="love64-duo-reset">もう一度遊ぶ</button><button type="button" class="love64-extra-button" id="love64-duo-copy">ふたりの回答をコピー</button></div>
+  <p id="love64-duo-status" role="status"></p>
+ </section>
   <div class="love64-extra-buttons">
    <button type="button" class="love64-extra-button secondary" id="compat-share">結果のリンクをコピー</button>
    <a class="love64-extra-button" href="love64.html">別の人も診断する</a>
@@ -74,7 +105,8 @@
   </div>
 </details>
 </main>
-<script src="assets/love64-story.js?v=20261010-results1"></script>
+<script src="assets/love64-story.js?v=20261013-loveplus1"></script>
+<script src="assets/love64-duo.js?v=20261013-loveplus1"></script>
 <script>
 (function(){
 'use strict';
@@ -109,6 +141,22 @@ function recommendation(a,b){
  if((modesA==='SD'||modesA==='AD')&&(modesB==='SW'||modesB==='AW')||(modesB==='SD'||modesB==='AD')&&(modesA==='SW'||modesA==='AW'))return '動きたい人と待ちたい人の組み合わせ。誘う頻度や一人時間を先に話しておくと、すれ違いが減らせそう。';
  return '好きの表現方法が違っても、優劣ではない。気持ちを受け取りやすい言葉や行動を互いに教え合うといい関係を作りやすい。';
 }
+
+const LOVE_SCENES={
+ SD:['用事がなくても話したくなることがある','言葉と行動で好きな気持ちを伝えたい','気になることは早く話して整理したい'],
+ SW:['安心できる言葉をゆっくり重ねたい','さりげない気遣いで好意を表す','少し考えてから穏やかに向き合いたい'],
+ AD:['相手の反応が気になると連絡したくなる','好きな気持ちを積極的に確かめたい','不安が強いとすぐ答えが欲しくなることも'],
+ AW:['送る前に気持ちを整理したい','照れながら小さな気遣いで示す','落ち着いて言葉を選ぶ時間が欲しい']
+};
+function scene(a,b,i){
+const heading=['連絡のテンポ','愛情の表現','仲直りの方法'][i];
+const tip=[
+'返信の速さだけでなく、連絡しやすい時間帯を話し合うと安心。',
+'言葉・行動・スキンシップのうち、何がうれしいか互いに確かめよう。',
+'どちらかが考える時間を欲しい時は、次に話す時間を決めるのがコツ。'
+][i];
+return 'あなた：'+LOVE_SCENES[a.sub][i]+'。\n相手：'+LOVE_SCENES[b.sub][i]+'。\n'+heading+'のヒント：'+tip;
+}
 function display(){
  const a=all.byCode(first.value),b=all.byCode(second.value);if(!a||!b)return;
  const points=score(a,b);
@@ -117,16 +165,18 @@ function display(){
  document.getElementById('compat-heading').textContent=points>=83?'お互いを伸ばし合える組み合わせ':points>=70?'じっくり育つ組み合わせ':'違いを楽しめる組み合わせ';
  document.getElementById('compat-intro').textContent=a.base+'-'+a.greek+' '+a.style.label+' × '+b.base+'-'+b.greek+' '+b.style.label+'。'+(a.base[0]===b.base[0]?'元気の回復方法が似ている二人。':'元気の回復方法が違う二人。')+'『'+a.words+'』『'+b.words+'』という言葉がそれぞれの安心のヒントになるかも。';
  document.getElementById('compat-advice').textContent=recommendation(a,b);
+ document.getElementById('compat-scene-line').textContent=scene(a,b,0);
+ document.getElementById('compat-scene-love').textContent=scene(a,b,1);
+ document.getElementById('compat-scene-conflict').textContent=scene(a,b,2);
+ if(window.Love64Duo)window.Love64Duo.render(a,b);
  const url=new URL(location.href);url.searchParams.set('me',first.value);url.searchParams.set('other',second.value);history.replaceState({},'',url);
  if(typeof gtag==='function')gtag('event','love64_compat_view',{first:first.value,second:second.value});
 }
 go.addEventListener('click',display);
 document.getElementById('compat-share').addEventListener('click',async()=>{
- const url=location.href;try{await navigator.clipboard.writeText(url);document.getElementById('compat-status').textContent='共有リンクをコピーしました。';}catch(e){document.getElementById('compat-status').textContent='このページのURLをコピーしてシェアしてな。';}
+ const url=location.href;try{await navigator.clipboard.writeText(url);document.getElementById('compat-status').textContent='共有リンクをコピーしました。';}catch(e){document.getElementById('compat-status').textContent='ページのURLをコピーして共有してください。';}
 });
 if(p.has('other')&&p.has('me'))display();
 })();
 </script>
-
-<script defer src="koropop-reader.js"></script>
 </body></html>
