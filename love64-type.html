@@ -30,7 +30,7 @@
    <a class="love64-extra-button secondary" id="share-compat" href="love64-compat.html">このタイプと相性を調べる</a><a class="love64-extra-button secondary" id="share-detail" href="love64-types.html">詳しい恋愛トリセツを見る</a>
   </div>
  </section>
- <section class="love64-extra-panel">
+ <section class="love64-extra-panel" id="share-details">
   <h2>💗 恋愛あるある</h2>
   <p id="share-habit"></p>
   <h2>🫣 実はこんな本性</h2>
@@ -46,7 +46,8 @@
 const q=new URLSearchParams(location.search),item=window.Love64Story.byCode(q.get('type'));
 if(!item){
 document.getElementById('share-title').textContent='まずは自分の恋タイプを診断しよう';
-document.getElementById('share-hidden').textContent='36問からあなたの恋愛傾向を読み解きます。';
+document.getElementById('share-intro').textContent='36問の無料診断から、自分の恋愛傾向をチェックできます。';
+for(const id of ['share-code','share-sub','share-character','share-compat','share-detail','share-details']) document.getElementById(id).style.display='none';
 return;
 }
 document.title=item.base+'-'+item.greek+' '+item.style.label+'｜恋タイプ64';
