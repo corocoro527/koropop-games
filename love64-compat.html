@@ -111,6 +111,13 @@ details.love64-duo-panel[open]>summary::after{content:'閉じる ↑'}
 .love64-duo-share-result{width:auto}
 .love64-duo-restart{border:1px solid #ead9e5;color:#8f5485;background:#fff9fc}
 details.love64-duo-panel>summary:focus-visible,.love64-duo-inner button:focus-visible{outline:3px solid #6c5be3;outline-offset:3px}
+</style><style id="love64-compare-tabs-css">
+.love64-compare-subtitle{color:#836e88;font-size:.83rem;line-height:1.7;margin:0 0 13px}
+.love64-compare-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 2px 12px;scrollbar-width:thin}
+.love64-compare-tabs button{flex:0 0 auto;white-space:nowrap;scroll-snap-align:start;min-height:44px;padding:9px 12px;border-radius:12px;border:1px solid #edcddd;background:#fff7fb;color:#9a547f;font-size:.84rem;font-weight:900;cursor:pointer}
+.love64-compare-tabs button[aria-selected="true"]{color:white;background:linear-gradient(110deg,#e8588c,#946cda);border-color:#ba67a2}
+.love64-compare-tabs button:focus-visible{outline:3px solid #7264e8;outline-offset:2px}
+.love64-compat-deep [role="tabpanel"][hidden]{display:none!important}
 </style></head>
 <body class="love64-extra-page">
 <header class="love64-extra-header"><a href="love64.html">♡ 恋タイプ64</a><a href="love64-types.html">64タイプ図鑑</a></header>
@@ -140,10 +147,20 @@ details.love64-duo-panel>summary:focus-visible,.love64-duo-inner button:focus-vi
   <p id="compat-intro"></p>
   <div class="love64-compat-advice"><strong>すれ違いを減らすコツ</strong><p id="compat-advice"></p></div>
  <section id="compat-deep" class="love64-compat-deep">
-  <h2>🔍 ふたりの違いをのぞいてみよう</h2>
-  <div class="love64-compat-scene"><h3>📱 LINE・連絡のペース</h3><p id="compat-scene-line"></p></div>
-  <div class="love64-compat-scene"><h3>💗 愛情表現のしかた</h3><p id="compat-scene-love"></p></div>
-  <div class="love64-compat-scene"><h3>🫶 喧嘩・仲直り</h3><p id="compat-scene-conflict"></p></div>
+  <h2>🔍 ふたりの違いを5つの場面で比較</h2>
+  <p class="love64-compare-subtitle">気になるテーマを押すと、ふたりそれぞれの傾向と話し合うヒントを読めます。</p>
+  <div class="love64-compare-tabs" role="tablist" aria-label="相性を比較する場面">
+   <button role="tab" type="button" aria-selected="true" aria-controls="compat-pane-line" id="compat-tab-line" data-pane="line">📱 LINE・会話</button>
+   <button role="tab" type="button" aria-selected="false" aria-controls="compat-pane-date" id="compat-tab-date" data-pane="date" tabindex="-1">🌷 デート</button>
+   <button role="tab" type="button" aria-selected="false" aria-controls="compat-pane-love" id="compat-tab-love" data-pane="love" tabindex="-1">💗 愛情表現</button>
+   <button role="tab" type="button" aria-selected="false" aria-controls="compat-pane-conflict" id="compat-tab-conflict" data-pane="conflict" tabindex="-1">🫶 仲直り</button>
+   <button role="tab" type="button" aria-selected="false" aria-controls="compat-pane-future" id="compat-tab-future" data-pane="future" tabindex="-1">🏡 将来・距離感</button>
+  </div>
+  <div id="compat-pane-line" class="love64-compat-scene" role="tabpanel" aria-labelledby="compat-tab-line"><h3>📱 LINE・連絡のペース</h3><p id="compat-scene-line"></p></div>
+  <div id="compat-pane-date" class="love64-compat-scene" role="tabpanel" aria-labelledby="compat-tab-date" hidden><h3>🌷 デートの決め方</h3><p id="compat-scene-date"></p></div>
+  <div id="compat-pane-love" class="love64-compat-scene" role="tabpanel" aria-labelledby="compat-tab-love" hidden><h3>💗 愛情表現のしかた</h3><p id="compat-scene-love"></p></div>
+  <div id="compat-pane-conflict" class="love64-compat-scene" role="tabpanel" aria-labelledby="compat-tab-conflict" hidden><h3>🫶 喧嘩・仲直り</h3><p id="compat-scene-conflict"></p></div>
+  <div id="compat-pane-future" class="love64-compat-scene" role="tabpanel" aria-labelledby="compat-tab-future" hidden><h3>🏡 将来の話と心地よい距離感</h3><p id="compat-scene-future"></p></div>
  </section>
  <details class="love64-duo-panel" id="love64-duo">
   <summary class="love64-duo-summary"><strong>🎲 ふたりで答え合わせゲーム</strong><span>同じ6問を2人で回答して、意外な違いを発見する（約2分）</span></summary>
@@ -230,17 +247,19 @@ function recommendation(a,b){
 }
 
 const LOVE_SCENES={
- SD:['用事がなくても話したくなることがある','言葉と行動で好きな気持ちを伝えたい','気になることは早く話して整理したい'],
- SW:['安心できる言葉をゆっくり重ねたい','さりげない気遣いで好意を表す','少し考えてから穏やかに向き合いたい'],
- AD:['相手の反応が気になると連絡したくなる','好きな気持ちを積極的に確かめたい','不安が強いとすぐ答えが欲しくなることも'],
- AW:['送る前に気持ちを整理したい','照れながら小さな気遣いで示す','落ち着いて言葉を選ぶ時間が欲しい']
+ SD:['用事がなくても気軽に連絡する','言葉でも行動でも好意を伝えたい','気になることは早めに話し合いたい','行きたい場所を見つけたら自分から誘う','今後の予定も自分から提案しやすい'],
+ SW:['急がず自分たちのペースで連絡したい','さりげない気遣いで好意を表す','一度考えてから穏やかに向き合いたい','相手の希望を聞いてから予定を考えたい','お互いの一人時間も尊重したい'],
+ AD:['返事を待つあいだ相手の反応が気になる','好きな気持ちをこまめに伝え合いたい','不安があると早く話して解決したくなる','会えるチャンスがあれば積極的に誘う','先の約束があると安心しやすい'],
+ AW:['送る前に文章を何度も考える','照れながら小さな気遣いで示す','落ち着いて話す時間が欲しい','誘いたくても相手の反応を見てしまう','先の話をしたいが切り出すタイミングに迷う']
 };
 function scene(a,b,i){
-const heading=['連絡のテンポ','愛情の表現','仲直りの方法'][i];
+const heading=['連絡のテンポ','愛情の表現','仲直りの方法','デートの予定','先の話と距離感'][i];
 const tip=[
 '返信の速さだけでなく、連絡しやすい時間帯を話し合うと安心。',
 '言葉・行動・スキンシップのうち、何がうれしいか互いに確かめよう。',
-'どちらかが考える時間を欲しい時は、次に話す時間を決めるのがコツ。'
+'どちらかが考える時間を欲しい時は、次に話す時間を決めるのがコツ。',
+'行きたい場所を一つずつ出して、二人とも楽しめる案を決めよう。',
+'数か月先のこと・連絡頻度・一人時間について、それぞれの希望を無理なく話してみよう。'
 ][i];
 return 'あなた：'+LOVE_SCENES[a.sub][i]+'。\n相手：'+LOVE_SCENES[b.sub][i]+'。\n'+heading+'のヒント：'+tip;
 }
@@ -255,10 +274,26 @@ function display(){
  document.getElementById('compat-scene-line').textContent=scene(a,b,0);
  document.getElementById('compat-scene-love').textContent=scene(a,b,1);
  document.getElementById('compat-scene-conflict').textContent=scene(a,b,2);
+ document.getElementById('compat-scene-date').textContent=scene(a,b,3);
+ document.getElementById('compat-scene-future').textContent=scene(a,b,4);
  if(window.Love64Duo)window.Love64Duo.render(a,b);
  const url=new URL(location.href);url.searchParams.set('me',first.value);url.searchParams.set('other',second.value);history.replaceState({},'',url);
  if(typeof gtag==='function')gtag('event','love64_compat_view',{first:first.value,second:second.value});
 }
+const tabButtons=Array.from(document.querySelectorAll('.love64-compare-tabs [role="tab"]'));
+function activatePane(name){
+ for(const btn of tabButtons){const active=btn.dataset.pane===name;btn.setAttribute('aria-selected',String(active));btn.tabIndex=active?0:-1;
+  const pane=document.getElementById('compat-pane-'+btn.dataset.pane);if(pane)pane.hidden=!active;}
+}
+tabButtons.forEach((btn,i)=>{
+ btn.addEventListener('click',()=>activatePane(btn.dataset.pane));
+ btn.addEventListener('keydown',e=>{
+  if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;
+  e.preventDefault();
+  const index=e.key==='Home'?0:e.key==='End'?tabButtons.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabButtons.length)%tabButtons.length;
+  activatePane(tabButtons[index].dataset.pane);tabButtons[index].focus();
+ });
+});
 go.addEventListener('click',display);
 document.getElementById('compat-share').addEventListener('click',async()=>{
  const url=location.href;try{await navigator.clipboard.writeText(url);document.getElementById('compat-status').textContent='共有リンクをコピーしました。';}catch(e){document.getElementById('compat-status').textContent='ページのURLをコピーして共有してください。';}

@@ -297,6 +297,19 @@ footer{text-align:center;padding:25px 0 40px;color:#a0a3ad;font-size:.7rem}
 <style>
 #catalog .love64-detail-link{display:block;margin:12px auto 3px;padding:11px 6px;background:linear-gradient(110deg,#fff2f8,#f5eeff);border:1px solid #f1c6da;border-radius:12px;text-decoration:none;color:#a53d75;font-size:.8rem;font-weight:900;line-height:1.4;text-align:center}
 #catalog .love64-detail-link:focus-visible{outline:3px solid #6a5bef;outline-offset:2px}
+</style><style id="love64-catalog-filter-css">
+.love64-catalog-controls{border:1px solid #f0d8e6;background:#fff;border-radius:18px;margin:12px auto 23px;padding:17px 18px;max-width:900px;box-shadow:0 5px 24px rgba(102,67,104,.05)}
+.love64-catalog-controls>label{display:block;font-size:.94rem;color:#9e4777;font-weight:850;margin:0 0 8px}
+#love64-search{display:block;width:100%;min-width:0;padding:13px 15px;background:#fffbfd;color:#342b3e;border:1px solid #e9cddd;border-radius:12px;font-size:16px}
+.love64-catalog-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.love64-catalog-filters label{font-size:.79rem;line-height:1.7;color:#856d86;font-weight:800}
+.love64-catalog-filters select{display:block;width:100%;background:#fff;border-radius:10px;padding:10px;color:#4c3a53;border:1px solid #ebdce9;font-size:14px}
+.love64-catalog-summary{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.love64-catalog-summary p{font-size:.83rem;font-weight:800;color:#ad497b;margin:0}
+#love64-clear{padding:9px 12px;border:1px solid #edd1e0;border-radius:10px;background:#fff5fa;color:#a1497a;cursor:pointer;font-weight:800;font-size:.78rem}
+#love64-search:focus-visible,#love64-clear:focus-visible,.love64-catalog-filters select:focus-visible{outline:3px solid #8772e8;outline-offset:2px}
+#catalog [hidden]{display:none!important}
+@media(max-width:440px){.love64-catalog-controls{padding:14px 12px}.love64-catalog-filters{grid-template-columns:1fr;gap:8px}}
 </style></head>
 <body>
 <header><div class="shell head"><a class="logo" href="love64.html">恋タイプ64</a><nav><a href="love64.html">診断する</a><a href="#catalog">64タイプ図鑑</a><a href="love64.html#types">16タイプ一覧</a><a href="love64.html#articles">コラム</a></nav><a class="cta" href="love64.html#diagnose">診断を始める</a></div></header>
@@ -305,7 +318,12 @@ footer{text-align:center;padding:25px 0 40px;color:#a0a3ad;font-size:.7rem}
 <p>16のMBTIそれぞれに、4つの恋愛スタイル。<br>同じMBTIでも、恋をした時の表情はちょっと違います。</p><div class="style-legend"><div><b>💪 愛の開拓者</b><span>α・安定 × リード</span></div><div><b>🌿 寄り添い上手</b><span>β・安定 × フォロー</span></div><div><b>🔥 恋の冒険家</b><span>γ・不安 × リード</span></div><div><b>🌙 秘めた一途</b><span>δ・不安 × フォロー</span></div></div></div><p style="margin:14px auto 0;text-align:center"><a href="love64-scenario.html" style="display:inline-block;padding:11px 17px;background:#fff2fa;border:1px solid #ebcade;border-radius:12px;text-decoration:none;color:#a4487a;font-weight:850;font-size:.86rem">🎮 恋愛の「もしも」シミュレーション →</a></p></section>
 
 
-<main id="catalog"><div class="shell" id="catalogRoot"></div><a class="back" href="love64.html">← 診断トップへ戻る</a></main>
+<main id="catalog"><div class="shell"><section class="love64-catalog-controls" aria-label="図鑑を検索して絞り込む">
+ <label for="love64-search">🔎 タイプを探す</label><input id="love64-search" type="search" placeholder="例：ENFP、運動家、恋の冒険家" autocomplete="off" aria-describedby="love64-catalog-count">
+ <div class="love64-catalog-filters"><label>グループ <select id="love64-group"><option value="all">すべて</option><option value="NF">💗 NF 外交官</option><option value="NT">🧠 NT 分析家</option><option value="SJ">🛡️ SJ 番人</option><option value="SP">🧭 SP 探検家</option></select></label>
+ <label>恋愛スタイル <select id="love64-style"><option value="all">4スタイルすべて</option><option value="SD">α 愛の開拓者</option><option value="SW">β 寄り添い上手</option><option value="AD">γ 恋の冒険家</option><option value="AW">δ 秘めた一途</option></select></label></div>
+ <div class="love64-catalog-summary"><p id="love64-catalog-count" role="status" aria-live="polite">全64タイプを表示中</p><button type="button" id="love64-clear">条件をクリア</button></div>
+ </section></div><div class="shell" id="catalogRoot"></div><a class="back" href="love64.html">← 診断トップへ戻る</a></main>
 <footer>© KOROPOP / 恋タイプ64<br><small>診断結果は自己理解を楽しむための独自コンテンツです。</small><br><small><a href='about.html'>運営情報</a> · <a href='contact.html'>お問い合わせ</a></small></footer>
 <script>
 const styles=[{n:'愛の開拓者',g:'α',i:'💪'},{n:'寄り添い上手',g:'β',i:'🌿'},{n:'恋の冒険家',g:'γ',i:'🔥'},{n:'秘めた一途',g:'δ',i:'🌙'}];
@@ -335,6 +353,36 @@ html+='<section class="family '+d[2].toLowerCase()+'"><div class="family-head"><
 styles.forEach((st,si)=>{const idx=di*4+si;html+='<article class="card"><div class="chara" data-mbti="'+d[0]+'" data-sub="'+si+'"></div><div class="sub">'+st.i+' '+st.n+'</div><div class="greek">'+st.g+'</div><div class="catch">「'+d[3][si]+'」</div><a class="love64-detail-link" href="love64-'+d[0]+'-'+['SD','SW','AD','AW'][si]+'.html">詳しい恋愛トリセツ →</a></article>'});
 html+='</div></section>'});
 document.getElementById('catalogRoot').innerHTML=html;
+</script>
+<script id="love64-catalog-filter-js">
+(function(){
+const root=document.getElementById('catalogRoot'),search=document.getElementById('love64-search'),group=document.getElementById('love64-group'),style=document.getElementById('love64-style'),counter=document.getElementById('love64-catalog-count');
+if(!root||!search||!group||!style||!counter)return;
+const subs=['SD','SW','AD','AW'],families=Array.from(root.querySelectorAll('.family'));
+function apply(){
+ const query=search.value.trim().toLocaleLowerCase('ja-JP'),g=group.value,sub=style.value;
+ let visible=0;
+ families.forEach((family,i)=>{
+  const row=data[i],fitsGroup=g==='all'||row[2]===g,buttons=Array.from(family.querySelectorAll('.card'));
+  let any=false;
+  buttons.forEach((card,j)=>{
+   const words=[row[0],row[1],row[2],styles[j].n,styles[j].g,subs[j],row[3][j],row[0]+'-'+subs[j]].join(' ').toLocaleLowerCase('ja-JP');
+   const yes=fitsGroup&&(sub==='all'||subs[j]===sub)&&(!query||words.includes(query));
+   card.hidden=!yes;if(yes){visible++;any=true}
+  });
+  family.hidden=!any;
+ });
+ Array.from(root.querySelectorAll('.group-label')).forEach(el=>{
+  let sib=el.nextElementSibling,any=false;
+  while(sib&&!sib.classList.contains('group-label')){if(sib.classList.contains('family')&&!sib.hidden){any=true;break}sib=sib.nextElementSibling}
+  el.hidden=!any;
+ });
+ counter.textContent=visible===0?'見つかりませんでした。条件を変更してみてね。':visible+' / 64タイプを表示中';
+}
+search.addEventListener('input',apply);group.addEventListener('change',apply);style.addEventListener('change',apply);
+document.getElementById('love64-clear').addEventListener('click',()=>{search.value='';group.value='all';style.value='all';apply();search.focus()});
+apply();
+})();
 </script>
 <script src="assets/love64-art.js?v=20261010-clean-face-v8"></script>
 </body>

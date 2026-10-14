@@ -1458,6 +1458,18 @@ body.love64-active-flow #stickyCta{display:none!important}
 .love64-sim-cta h2{font-size:clamp(1.35rem,4vw,1.9rem);color:#4b3156;margin:9px 0}
 .love64-sim-cta p{font-size:.91rem;line-height:1.85;color:#776781;margin:10px auto 18px;max-width:580px}
 .love64-sim-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;border-radius:13px;background:linear-gradient(105deg,#f2598f,#9570dc);color:white;padding:12px 20px;text-decoration:none;font-size:.95rem;font-weight:900}
+</style><style id="love64-save-ui">
+.love64-resume-banner[hidden]{display:none!important}
+.love64-resume-banner{max-width:560px;margin:12px auto;padding:15px;background:#fffafd;border:1px solid #edcada;border-radius:15px;color:#694d72}
+.love64-resume-banner p{font-size:.88rem;font-weight:850;margin:0 0 10px}
+.love64-resume-banner p span{font-size:.75rem}
+.love64-resume-banner div{display:flex;flex-wrap:wrap;gap:8px}
+.love64-resume-banner button,.love64-save-progress button{padding:10px 13px;min-height:44px;border-radius:10px;font-weight:850;cursor:pointer;border:1px solid #ecbfd9;background:linear-gradient(105deg,#f45e95,#a06bdb);color:#fff}
+.love64-resume-banner button.secondary{background:#fff;color:#ad5187}
+.love64-resume-banner small{display:block;color:#937f96;margin-top:9px;font-size:.72rem}
+.love64-save-progress{display:flex;flex-direction:column;align-items:center;gap:8px;color:#a2507a;font-size:.82rem;padding:10px 0 24px}
+.love64-save-progress button{background:#fff8fb;color:#a75182}
+.love64-resume-banner button:focus-visible,.love64-save-progress button:focus-visible{outline:3px solid #7d6ce6;outline-offset:2px}
 </style></head>
 <body>
 <header class="site-head">
@@ -1488,6 +1500,9 @@ body.love64-active-flow #stickyCta{display:none!important}
         <button class="v6-start v6-m" onclick="startQuiz('male')"><span class="v10-cta-avatar v10-boy" aria-hidden="true"></span><span>男性で始める</span></button>
       </div>
       <div class="v6-micro">無料 / 登録不要 / 約3〜4分</div>
+<div id="love64-resume-banner" class="love64-resume-banner" hidden><p>前回の続きから再開できます。<span id="love64-resume-progress"></span></p>
+<div><button type="button" onclick="resumeSavedQuiz()">▶ 続きから再開</button><button type="button" class="secondary" onclick="clearSavedQuiz()">保存を削除</button></div>
+<small>回答はこの端末のブラウザ内にのみ保存します。</small></div>
       <a class="love64-compat-hero-link" href="love64-compat.html" aria-label="ふたりの相性チェックへ。自分と相手のタイプを選んで比較できます">
         <span class="love64-compat-hero-icon" aria-hidden="true">💞</span>
         <span class="love64-compat-hero-copy"><strong>ふたりの相性チェック</strong><small>ふたりのタイプを選んで比較する →</small></span>
@@ -1674,7 +1689,7 @@ body.love64-active-flow #stickyCta{display:none!important}
  <div class="quiz-controls">
   <button type="button" id="previousQuestionBtn" onclick="previousQuestion()">← 前の質問</button>
   <button type="button" id="nextQuestionBtn" onclick="nextQuestion()">次の質問 →</button>
- </div>
+ </div><div class="love64-save-progress"><button type="button" onclick="saveQuizProgress()">💾 途中保存する</button><span id="love64-save-status" role="status" aria-live="polite"></span></div>
 </div>
 </main>
 
@@ -1832,6 +1847,37 @@ var subtypeData={
  AW:{name:'秘めた一途',icon:'🌙',desc:'気持ちは深いのに、拒絶を避けて相手の様子を見やすいタイプ。',strength:'相手の変化を細かく感じ取り、乱暴に踏み込まず関係を大切にできる。',weak:'不安を言わずに抱え込み、相手の小さな反応から大きな意味を想像してしまいやすい。',contact:'本当は連絡したくても「迷惑かも」と待つことがある。返信が遅いと内側で考え続けやすい。',conflict:'その場では引いてしまい、後から一人で何度も考える。限界まで我慢する前の小さな共有が重要。',advice:'察してもらうより、短い一文で希望を出す練習が効く。「今日は少し話したい」くらいからで十分。'}
 };
 
+
+const LOVE64_DRAFT_KEY='love64-draft-v1';
+function savedQuizDraft(){
+ try{
+ const raw=localStorage.getItem(LOVE64_DRAFT_KEY);if(!raw)return null;const d=JSON.parse(raw);
+ if(!d||!d.answers||typeof d.answers!=='object'||!['female','male','none'].includes(d.gender)||!Number.isFinite(d.savedAt))return null;
+ if(Date.now()-d.savedAt>14*86400000||!Number.isInteger(d.page)||d.page<0||d.page>30||d.page%6!==0)return null;
+ if(!Object.entries(d.answers).every(([k,v])=>/^(?:[0-9]|[12][0-9]|3[0-5])$/.test(k)&&Number.isInteger(v)&&v>=-3&&v<=3))return null;
+ return d;
+ }catch(e){return null}
+}
+function refreshQuizResume(){
+ const panel=document.getElementById('love64-resume-banner');if(!panel)return;
+ const d=savedQuizDraft();panel.hidden=!d;
+ if(d)document.getElementById('love64-resume-progress').textContent='（'+Object.keys(d.answers).length+' / 36問回答済み）';
+}
+function saveQuizProgress(){
+ const status=document.getElementById('love64-save-status');
+ try{localStorage.setItem(LOVE64_DRAFT_KEY,JSON.stringify({answers,gender:selectedGender,page:currentQuestion,savedAt:Date.now()}));
+ if(status)status.textContent='この端末に保存しました。';refreshQuizResume();
+ if(typeof gtag==='function')gtag('event','love64_quiz_saved',{answered:Object.keys(answers).length});
+ }catch(e){if(status)status.textContent='この端末では保存できませんでした。'}
+}
+function clearSavedQuiz(){try{localStorage.removeItem(LOVE64_DRAFT_KEY)}catch(e){}refreshQuizResume()}
+function resumeSavedQuiz(){
+ const d=savedQuizDraft();if(!d){refreshQuizResume();return;}
+ startQuiz(d.gender);answers={...d.answers};currentQuestion=d.page;renderQuestion();updateProgress();love64JumpToQuizTop();
+ if(typeof gtag==='function')gtag('event','love64_quiz_resumed',{answered:Object.keys(answers).length});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refreshQuizResume);else refreshQuizResume();
+
 function startQuiz(g){
  document.body.classList.add('love64-active-flow');
  selectedGender=g;
@@ -1944,6 +1990,7 @@ function diagnose(){
  }
  document.getElementById('error').style.display='none';
  var r=calc();
+ clearSavedQuiz();
  showResult(r);
 }
 
