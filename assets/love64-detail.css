@@ -43,3 +43,26 @@ footer{padding:25px 15px 90px;text-align:center;color:#817687;font-size:.72rem;l
 .love64-style-comparison a:focus-visible{outline:3px solid #806ce4;outline-offset:3px}
 .love64-original-note{font-size:.75rem!important;color:#8a7e91!important;line-height:1.8!important;margin-top:12px!important}
 @media(max-width:570px){.love64-scenes,.love64-style-comparison{grid-template-columns:1fr}.love64-scene-card{padding:15px}.love64-style-comparison a{padding:13px 14px}}
+
+/* 2026-10-15: 64 concise character guides — clear reading hierarchy, unchanged character art */
+.hero .love64-one-line{max-width:550px;margin:9px auto 4px;color:#6d5a70;font-size:.91rem;line-height:1.75;text-wrap:pretty}
+.love64-deeper-story .love64-scenes{gap:10px;margin:12px 0}
+.love64-deeper-story .love64-scene-card{padding:13px 14px}
+.love64-deeper-story .love64-scene-card .scene-kicker{margin-bottom:5px;font-size:.77rem}
+.love64-deeper-story .love64-scene-card p{font-size:.86rem;line-height:1.65}
+.love64-deeper-story .love64-character-quote{font-size:.87rem;line-height:1.65;padding:11px 12px;margin:6px 0 5px auto}
+.love64-deeper-story .love64-scene-pair{margin:12px 0 0;padding:11px 14px}
+.love64-deeper-story .love64-scene-pair p{font-size:.84rem;line-height:1.7;margin:6px 0}
+.love64-conflict p{font-size:.89rem;line-height:1.72;margin:8px 0}
+.love64-conflict p strong{color:#a55081}
+.love64-conflict-line{border-left:3px solid #e783b5;background:#fff2f8;padding:10px 14px;border-radius:0 13px 13px 0;margin:12px 0}
+.love64-conflict-line small{display:block;font-size:.76rem;color:#95597f;font-weight:900;margin-bottom:4px}
+.love64-conflict-line p{margin:0;font-size:.96rem;font-weight:850;color:#6b3c60}
+.love64-conflict .love64-conflict-tip{font-size:.82rem;color:#7a667b}
+.love64-four-styles .love64-style-comparison{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:6px 0 0}
+.love64-four-styles .love64-style-comparison a{padding:12px}
+.love64-four-styles .love64-style-comparison a strong{font-size:.83rem}
+.love64-four-styles .love64-style-comparison a span{font-size:.79rem;line-height:1.65;margin-top:5px}
+.love64-four-styles .love64-style-comparison a small{margin-top:5px}
+.love64-deeper-story+.love64-conflict,.love64-conflict+.love64-four-styles{margin-top:13px}
+@media(max-width:650px){.love64-four-styles .love64-style-comparison{grid-template-columns:1fr}.love64-deeper-story .love64-scenes{grid-template-columns:1fr}.detail-section{margin:12px 0;padding:16px 15px}.love64-four-styles .love64-style-comparison a{padding:11px 13px}.hero .love64-one-line{font-size:.85rem}}
