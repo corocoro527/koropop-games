@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>64タイプ相性マップ｜恋タイプ64</title>
+<meta name="description" content="自分の恋タイプを選ぶだけ。64タイプとの距離感やLINE・恋愛スタイルの違いを一覧で比較できる無料の相性マップ。">
+<link rel="canonical" href="https://shindan.koropopgames.com/love64-map.html">
+<meta property="og:title" content="恋タイプ64｜64タイプ相性マップ"><meta property="og:description" content="自分の恋タイプと他の63タイプ、どこが似ていてどこが違う？">
+<meta property="og:url" content="https://shindan.koropopgames.com/love64-map.html">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8NWPD2QBCQ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-8NWPD2QBCQ')</script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:#faf6fc;color:#3c2c42}
+header{background:#fff;border-bottom:1px solid #f2dfeb;padding:15px}header>div{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}header a{color:#a7487c;font-weight:900;text-decoration:none;font-size:.86rem}header .brand{font-size:1.1rem}
+main{max-width:1050px;margin:auto;padding:24px 14px 80px}h1{font-size:clamp(1.65rem,4.3vw,2.4rem);line-height:1.45;margin:8px 0}p{line-height:1.85}.subtitle{max-width:780px;color:#786b7f;font-size:.91rem}
+.tag{font-size:.76rem;display:inline-block;padding:5px 11px;background:#ffecf5;border:1px solid #f5cadb;color:#ae4d83;border-radius:99px;font-weight:950}
+.controls{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin:22px 0;padding:17px;background:#fff;border:1px solid #f0d9e8;border-radius:16px}
+.controls label{display:block;font-size:.79rem;color:#846c86;font-weight:850;line-height:1.7}.controls select,.controls input{display:block;width:100%;min-width:0;min-height:45px;border-radius:10px;background:#fff;border:1px solid #ecd6e4;padding:10px 11px;color:#45394c;font-size:15px}
+.help{color:#87798b;font-size:.78rem;margin:12px 0}.tabs{display:flex;gap:8px;overflow:auto;padding:5px 0 14px}.tabs button{flex:none;border:1px solid #edd3df;border-radius:12px;background:#fff;color:#91537f;min-height:42px;padding:9px 13px;font-weight:850;font-size:.83rem;cursor:pointer}
+.tabs button[aria-pressed=true]{background:linear-gradient(100deg,#eb5c91,#986fdf);color:#fff;border-color:#a36bd0}
+.summary{color:#a74d7f;font-size:.84rem;font-weight:850;margin:0 0 15px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{padding:16px 12px;border-radius:16px;border:1px solid #edd9e6;background:white;min-width:0;box-shadow:0 6px 18px #9e6d9a0c}
+.card h2{font-size:1rem;margin:0;color:#3f3147}.card .style{font-size:.82rem;font-weight:850;color:#a75183;margin:4px 0 11px}.chip{display:inline-block;font-size:.74rem;font-weight:850;padding:4px 9px;border-radius:100px;background:#f8eafa;color:#89578e}
+.chip.same{background:#e5f6ef;color:#267a5a}.chip.complement{background:#eaeaff;color:#6660ab}.chip.discuss{background:#fff0e3;color:#a16f28}
+.card p{color:#786a80;font-size:.79rem;line-height:1.7;min-height:58px}.card a{display:block;background:#fff1f8;border:1px solid #f1d2e2;color:#a5467a;text-align:center;text-decoration:none;font-size:.79rem;font-weight:850;padding:11px 5px;border-radius:10px;min-height:43px}
+.card a:focus-visible,.tabs button:focus-visible,.controls select:focus-visible,.controls input:focus-visible{outline:3px solid #7569de;outline-offset:2px}
+.disclaimer{font-size:.76rem;color:#817385;margin:21px 0}
+@media(max-width:860px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.controls{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:13px 10px}.card p{min-height:0}}
+@media(max-width:360px){.grid{gap:7px}.card{padding:12px 8px}.card h2{font-size:.9rem}}
+</style></head>
+<body><header><div><a class="brand" href="love64.html">♡ 恋タイプ64</a><a href="love64-types.html">64タイプ図鑑</a></div></header>
+<main><span class="tag">64-TYPE COMPATIBILITY MAP</span><h1>64タイプ相性マップ</h1>
+<p class="subtitle">自分のタイプを選ぶと、他の63タイプとのコミュニケーションの相性を一覧で比較できます。<strong>恋愛の優劣ランキングではなく、会話のきっかけを探すマップ</strong>です。</p>
+<div class="controls">
+ <label>自分の恋タイプ<select id="my-type" aria-label="自分の恋タイプ"></select></label>
+ <label>見たいグループ<select id="group"><option value="all">すべて</option><option value="NF">NF 外交官</option><option value="NT">NT 分析家</option><option value="SJ">SJ 番人</option><option value="SP">SP 探検家</option></select></label>
+ <label>探したいタイプ<input type="search" id="query" placeholder="ENFP、秘めた一途など" aria-label="探したい恋タイプ"></label>
+</div>
+<div class="tabs" aria-label="関係の特徴を絞り込む">
+<button type="button" data-filter="all" aria-pressed="true">すべて</button>
+<button type="button" data-filter="same" aria-pressed="false">🌿 ペースが近い</button>
+<button type="button" data-filter="complement" aria-pressed="false">✨ 違いがヒントに</button>
+<button type="button" data-filter="discuss" aria-pressed="false">💬 話し合いポイント</button>
+</div>
+<p id="map-count" class="summary" role="status" aria-live="polite"></p>
+<div id="map-grid" class="grid"></div>
+<p class="disclaimer">※タイプによる特徴の組み合わせを参考にした娯楽的な分類です。交際の成功率・恋人としての価値・将来を予測するものではありません。気になる相手とは実際に話し合うことを大切にしてください。</p>
+<p><a href="love64-compat.html">💞 二人の相性を詳しくチェック →</a>　<a href="love64.html">36問の診断を受ける →</a></p>
+</main>
+<script src="assets/love64-story.js?v=20261013-polish5"></script>
+<script>
+(function(){
+'use strict';
+const service=window.Love64Story;if(!service)return;
+const types=service.types,subs=['SD','SW','AD','AW'],greek={SD:'α',SW:'β',AD:'γ',AW:'δ'},groups={NF:['ENFP','INFP','ENFJ','INFJ'],NT:['ENTP','INTP','ENTJ','INTJ'],SJ:['ESFJ','ISFJ','ESTJ','ISTJ'],SP:['ESFP','ISFP','ESTP','ISTP']};
+const $=id=>document.getElementById(id),select=$('my-type'),group=$('group'),query=$('query'),root=$('map-grid'),counter=$('map-count');
+let mode='all';
+for(const base of types)for(const sub of subs){const d=service.details(base,sub);const option=document.createElement('option');option.value=base+'-'+sub;option.textContent=base+'-'+d.greek+'　'+d.style.label;select.append(option)}
+const qs=new URLSearchParams(location.search),raw=qs.get('me');
+select.value=service.byCode(raw)?raw:'ENFP-SD';
+function grade(a,b){
+ const aStable=a.sub[0]==='S',bStable=b.sub[0]==='S',aLead=a.sub[1]==='D',bLead=b.sub[1]==='D';
+ const n=[0,1,2,3].filter(i=>a.base[i]===b.base[i]).length;
+ if(a.base===b.base&&a.sub===b.sub)return {tier:'same',label:'🌿 同じペース',reason:'同じタイプ。似ているからこそ、気持ちは言葉でも確かめたい。'};
+ if(aStable===bStable&&(aLead===bLead||n>=3))return {tier:'same',label:'🌿 ペースが近い',reason:'安心の求め方や動くタイミングに共通点が見つかりそう。'};
+ if(aStable!==bStable&&aLead===bLead)return {tier:'discuss',label:'💬 話し合いポイント',reason:'不安を感じたときの連絡ペースは先に話しておこう。'};
+ if(aLead!==bLead&&(aStable===bStable||n>=2))return {tier:'complement',label:'✨ 違いがヒント',reason:'自分から動く人と相手の様子を見る人で、役割を補い合えるかも。'};
+ if(n<=1&&aStable!==bStable)return {tier:'discuss',label:'💬 話し合いポイント',reason:'考え方と安心のペースが違う可能性。まず希望を共有してみて。'};
+ return {tier:'complement',label:'✨ 違いがヒント',reason:'得意な伝え方が違う二人。大切にしたいことを話してみよう。'};
+}
+function render(){
+ const current=service.byCode(select.value),term=query.value.trim().toLocaleLowerCase('ja-JP'),g=group.value;
+ const frag=document.createDocumentFragment();let n=0;
+ for(const base of types)for(const sub of subs){
+  const d=service.details(base,sub),info=grade(current,d);
+  if(g!=='all'&&!groups[g].includes(base))continue;
+  if(mode!=='all'&&info.tier!==mode)continue;
+  if(term&&![base,d.name,d.style.label,d.greek,sub,base+'-'+sub].join(' ').toLocaleLowerCase('ja-JP').includes(term))continue;
+  const card=document.createElement('article');card.className='card';
+  const title=document.createElement('h2');title.textContent=base+'-'+d.greek;
+  const label=document.createElement('div');label.className='style';label.textContent=d.style.label;
+  const badge=document.createElement('span');badge.className='chip '+info.tier;badge.textContent=info.label;
+  const reason=document.createElement('p');reason.textContent=info.reason;
+  const link=document.createElement('a');link.href='love64-compat.html?me='+encodeURIComponent(current.base+'-'+current.sub)+'&other='+encodeURIComponent(base+'-'+sub);link.textContent='この組み合わせを詳しく →';
+  card.append(title,label,badge,reason,link);frag.append(card);n++;
+ }
+ root.replaceChildren(frag);
+ counter.textContent=n?'64タイプ中 '+n+'タイプを表示中':'該当するタイプがありません。検索や絞り込みを変更してみてね。';
+ const url=new URL(location.href);url.searchParams.set('me',current.base+'-'+current.sub);history.replaceState({},'',url);
+}
+for(const button of document.querySelectorAll('[data-filter]'))button.addEventListener('click',()=>{
+ mode=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));render()
+});
+select.addEventListener('change',render);group.addEventListener('change',render);query.addEventListener('input',render);
+render();
+})();
+</script></body></html>
