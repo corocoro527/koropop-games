@@ -22,3 +22,24 @@ footer{padding:25px 15px 90px;text-align:center;color:#817687;font-size:.72rem;l
 .love64-dialog blockquote{display:block;background:#e1f5e9;color:#385a48;border-radius:17px 17px 5px 17px;margin:10px 0 13px auto;padding:12px 16px;width:fit-content;max-width:90%;font-size:.91rem;font-weight:750;line-height:1.7}
 .love64-dialog p{margin:0!important;font-size:.85rem!important;color:#765c83!important}
 .love64-note{font-size:.76rem!important;color:#897c90!important;line-height:1.8!important}
+
+/* KOROPOP EDITORIAL UPGRADE — unique 64-type character stories */
+.love64-deeper-story .love64-story-intro{font-weight:750;color:#735176}
+.love64-scenes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
+.love64-scene-card{background:linear-gradient(145deg,#fff9fc,#faf6ff);border:1px solid #efdfeb;border-radius:16px;padding:16px;min-width:0}
+.love64-scene-card .scene-kicker{font-size:.77rem;color:#ad5388;font-weight:900;display:block;margin-bottom:8px;letter-spacing:.01em}
+.love64-scene-card p{margin:0;color:#594b62;font-size:.9rem;line-height:1.87}
+.love64-character-quote{background:#e4f6eb;color:#3d6c50;padding:13px 16px;border-radius:15px 15px 5px 15px;margin:9px 0 12px auto;max-width:91%;width:fit-content;font-size:.96rem;font-weight:850;line-height:1.75}
+.love64-scene-pair{background:#fcf5fe;border:1px solid #ecdff2;padding:15px 16px;border-radius:14px;margin:16px 0}
+.love64-scene-pair h3,.love64-deeper-story h3{font-size:.96rem;color:#aa4c83;margin:0 0 8px}
+.love64-scene-pair p{margin:8px 0;color:#624f66;font-size:.87rem;line-height:1.85}
+.love64-scene-pair strong{color:#9d467a}
+.love64-style-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.love64-style-comparison a{display:block;background:#fffafd;border:1px solid #ecdaeb;border-radius:15px;text-decoration:none;padding:15px;min-width:0}
+.love64-style-comparison a[aria-current=page]{border:2px solid #d770af;background:#fff0f8}
+.love64-style-comparison a strong{display:block;color:#9e4b81;font-size:.89rem;line-height:1.5}
+.love64-style-comparison a span{display:block;color:#6c526c;font-size:.8rem;line-height:1.7;margin-top:7px}
+.love64-style-comparison a small{display:block;color:#958199;font-size:.72rem;margin-top:7px;font-weight:800}
+.love64-style-comparison a:focus-visible{outline:3px solid #806ce4;outline-offset:3px}
+.love64-original-note{font-size:.75rem!important;color:#8a7e91!important;line-height:1.8!important;margin-top:12px!important}
+@media(max-width:570px){.love64-scenes,.love64-style-comparison{grid-template-columns:1fr}.love64-scene-card{padding:15px}.love64-style-comparison a{padding:13px 14px}}
