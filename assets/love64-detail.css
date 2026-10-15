@@ -75,3 +75,8 @@ footer{padding:25px 15px 90px;text-align:center;color:#817687;font-size:.72rem;l
 .love64-scene-pair .love64-line-tough strong{color:#9b657f}
 .love64-deeper-story .love64-scenes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:650px){.love64-deeper-story .love64-scenes{grid-template-columns:1fr}.love64-scene-pair .love64-line-good,.love64-scene-pair .love64-line-tough{font-size:.83rem!important}}
+
+/* Short, skimmable distinction between the four styles */
+.love64-four-styles .love64-difference-summary{margin:0 0 13px;padding:10px 13px;background:linear-gradient(100deg,#fff1f8,#f6f0ff);border:1px solid #eed9eb;border-radius:12px;font-size:.86rem;line-height:1.65;color:#755272}
+.love64-four-styles .love64-difference-summary strong{font-weight:900;color:#a34679}
+@media(max-width:650px){.love64-four-styles .love64-difference-summary{padding:10px 12px;font-size:.83rem}.love64-scene-card p,.love64-conflict p{overflow-wrap:anywhere}}
