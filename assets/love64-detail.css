@@ -80,3 +80,12 @@ footer{padding:25px 15px 90px;text-align:center;color:#817687;font-size:.72rem;l
 .love64-four-styles .love64-difference-summary{margin:0 0 13px;padding:10px 13px;background:linear-gradient(100deg,#fff1f8,#f6f0ff);border:1px solid #eed9eb;border-radius:12px;font-size:.86rem;line-height:1.65;color:#755272}
 .love64-four-styles .love64-difference-summary strong{font-weight:900;color:#a34679}
 @media(max-width:650px){.love64-four-styles .love64-difference-summary{padding:10px 12px;font-size:.83rem}.love64-scene-card p,.love64-conflict p{overflow-wrap:anywhere}}
+
+/* 恋が始まる頃と、距離が縮んでから。読みやすい2枚の短い行動カード */
+.love64-relationship-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0 12px}
+.love64-time-card{background:#fff;border:1px solid #eadde9;border-radius:13px;padding:12px 13px;min-width:0}
+.love64-time-card:first-child{background:#fff9fc}
+.love64-time-card:nth-child(2){background:#f8f5ff}
+.love64-time-card span{display:block;font-size:.76rem;font-weight:900;color:#a54e82;line-height:1.55;margin-bottom:5px}
+.love64-time-card p{font-size:.83rem;line-height:1.67;color:#635268;margin:0}
+@media(max-width:570px){.love64-relationship-timeline{grid-template-columns:1fr;gap:7px;margin:10px 0}.love64-time-card{padding:10px 12px}}
