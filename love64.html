@@ -1705,7 +1705,11 @@ body.love64-active-flow #stickyCta{display:none!important}
 #quizScreen .batch-dot{display:block;width:35%;aspect-ratio:1;border-radius:50%;background:#b8b4c7}
 #quizScreen .batch-option:nth-child(-n+3) .batch-dot{background:#80a9ed}
 #quizScreen .batch-option:nth-child(n+5) .batch-dot{background:#ed8cae}
-#quizScreen .batch-option.selected{outline:3px solid #54466e;outline-offset:2px;transform:scale(1.04)}
+#quizScreen .batch-option.selected{outline:3px solid #54466e;outline-offset:2px;transform:scale(1.04);box-shadow:0 0 0 5px rgba(84,70,110,.12)}
+#quizScreen .batch-option.selected::after{content:"✓";position:absolute;display:grid;place-items:center;width:19px;height:19px;right:-5px;top:-6px;border-radius:50%;background:#44355d;color:#fff;font-size:13px;font-weight:900;box-shadow:0 2px 5px #0002}
+#quizScreen .batch-option{position:relative;touch-action:manipulation}
+#quizScreen .batch-option.selected .batch-dot{opacity:1}
+#quizScreen .batch-question:has(.batch-option.selected) .q-title::after{content:"  ✓ 回答済み";color:#256b53;font-size:12px;font-weight:800;white-space:nowrap}
 #quizScreen .batch-option:focus-visible{outline:3px solid #54466e;outline-offset:3px}
 @media(max-width:380px){#quizScreen .batch-question{padding:20px 0}#quizScreen .batch-option{min-height:40px}}
 </style>
